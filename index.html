@@ -1675,6 +1675,7 @@ globalThis.qwebrExecuteCode = async function (
   <li><a href="#picture-it-choosing-and-making-a-graph" id="toc-picture-it-choosing-and-making-a-graph" class="nav-link" data-scroll-target="#picture-it-choosing-and-making-a-graph">4. Picture it: choosing and making a graph</a></li>
   <li><a href="#is-it-real-or-just-luck" id="toc-is-it-real-or-just-luck" class="nav-link" data-scroll-target="#is-it-real-or-just-luck">5. Is it real, or just luck?</a></li>
   <li><a href="#your-turn" id="toc-your-turn" class="nav-link" data-scroll-target="#your-turn">6. Your turn</a></li>
+  <li><a href="#the-same-steps-in-a-spreadsheet" id="toc-the-same-steps-in-a-spreadsheet" class="nav-link" data-scroll-target="#the-same-steps-in-a-spreadsheet">The same steps in a spreadsheet</a></li>
   <li><a href="#going-further-finished-early-want-a-harder-problem" id="toc-going-further-finished-early-want-a-harder-problem" class="nav-link" data-scroll-target="#going-further-finished-early-want-a-harder-problem">7. Going further (finished early? want a harder problem?)</a>
   <ul class="collapse">
   <li><a href="#challenge-1-how-big-is-the-effect-really" id="toc-challenge-1-how-big-is-the-effect-really" class="nav-link" data-scroll-target="#challenge-1-how-big-is-the-effect-really">Challenge 1 — How <em>big</em> is the effect, really?</a></li>
@@ -2168,7 +2169,46 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div id="qwebr-insertion-location-14"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Got a lot of data, or want to keep your work? Two easy options: come back to this page and re-type it later, or do the <strong>same steps in a spreadsheet</strong> (clean, add a calculated column, PivotTable, chart, <code>T.TEST</code>).</p>
+<p>Got a lot of data, or want to keep your work? Two easy options: come back to this page and re-type it later, or do the <strong>same steps in a spreadsheet</strong> (see the next section).</p>
+</section>
+<section id="the-same-steps-in-a-spreadsheet" class="level1">
+<h1>The same steps in a spreadsheet</h1>
+<p>You don’t have to use R. Everything we did has an Excel or Google Sheets version, and the <em>ideas</em> are identical, so the skills you built today carry over:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>What we did in R</th>
+<th>In a spreadsheet</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Clean labels, drop bad rows</td>
+<td><strong>Find &amp; Replace</strong>, then filter/sort and delete</td>
+</tr>
+<tr class="even">
+<td>Build <code>change = after - before</code></td>
+<td>A <strong>new column</strong> with <code>=after-before</code>, filled down</td>
+</tr>
+<tr class="odd">
+<td>Group averages (<code>group_by</code> + <code>summarise</code>)</td>
+<td>A <strong>PivotTable</strong></td>
+</tr>
+<tr class="even">
+<td>The dot / box plot</td>
+<td><strong>Insert &gt; Chart</strong></td>
+</tr>
+<tr class="odd">
+<td>The t-test</td>
+<td>The <strong><code>T.TEST</code></strong> function</td>
+</tr>
+</tbody>
+</table>
+<p>The one thing a spreadsheet can’t really do is the <strong>shuffle simulation</strong> from section 5. That, plus the fact that code <strong>remembers every step</strong> so anyone can re-run and check your work, is why scientists often reach for code. For a quick look at small data, a spreadsheet is perfectly fine. The real takeaway is the <strong>pipeline itself</strong>: get the data in, clean it, restructure it, summarize it, analyze it. That’s the same everywhere.</p>
 </section>
 <section id="going-further-finished-early-want-a-harder-problem" class="level1">
 <h1>7. Going further (finished early? want a harder problem?)</h1>
