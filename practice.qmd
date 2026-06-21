@@ -1,0 +1,221 @@
+---
+title: "NeuroCamp Practice"
+subtitle: "Graded challenges: fill in the blanks, get instant feedback"
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - infer
+live:
+  show-hints: true
+  show-solutions: true
+---
+
+{{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
+{{< include ./_extensions/r-wasm/live/_gradethis.qmd >}}
+
+::: callout-note
+## How this page works
+Each challenge has **blanks** (`______`) to fill in. Run it, and you get **instant
+feedback** on whether you got it right. Stuck? Use the **Hint** and **Solution** buttons.
+Everything runs in your browser, nothing to install. (First run is slow while R loads.)
+
+These are the harder "Going further" challenges from the lesson, now self-checking. Same
+sheep stem-cell data: 18 sheep, stem-cell treatment (`esc`) vs control (`ctrl`), heart
+pumping capacity `before` and `after`, with `change = after - before`.
+:::
+
+## Challenge 1 — Summarize each group
+
+Get each group's **average** change and its **spread** (standard deviation). Fill in the
+grouping column and the column you're averaging.
+
+```{webr}
+#| setup: true
+#| exercise: ex_summary
+library(dplyr)
+sheep <- read.csv("https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/stem-cell.csv") |>
+  mutate(change = after - before)
+```
+
+```{webr}
+#| exercise: ex_summary
+sheep |>
+  group_by(______) |>
+  summarise(avg = mean(______), spread = sd(change))
+```
+
+::: {.hint exercise="ex_summary"}
+The column that says which group a sheep is in is `trmt`. You want the average of `change`.
+:::
+
+```{webr}
+#| exercise: ex_summary
+#| solution: true
+sheep |>
+  group_by(trmt) |>
+  summarise(avg = mean(change), spread = sd(change))
+```
+
+```{webr}
+#| exercise: ex_summary
+#| check: true
+gradethis::grade_this_code()
+```
+
+## Challenge 2 — Did the groups start out the same?
+
+A fair experiment needs the groups comparable *before* treatment. Run a t-test on the
+**before** values across the two groups. Fill in the column being tested.
+
+```{webr}
+#| setup: true
+#| exercise: ex_baseline
+library(dplyr)
+sheep <- read.csv("https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/stem-cell.csv") |>
+  mutate(change = after - before)
+```
+
+```{webr}
+#| exercise: ex_baseline
+t.test(______ ~ trmt, data = sheep)
+```
+
+::: {.hint exercise="ex_baseline"}
+You're checking the starting values, so the column is `before`.
+:::
+
+```{webr}
+#| exercise: ex_baseline
+#| solution: true
+t.test(before ~ trmt, data = sheep)
+```
+
+```{webr}
+#| exercise: ex_baseline
+#| check: true
+gradethis::grade_this_code()
+```
+
+## Challenge 3 — Compute the p-value yourself
+
+The shuffle gave us 1000 "luck" differences in `luck`, and our real difference is in
+`real_diff`. The p-value is the fraction of luck differences at least as big as ours. Fill
+in the column name.
+
+```{webr}
+#| setup: true
+#| exercise: ex_pvalue
+library(dplyr)
+library(infer)
+sheep <- read.csv("https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/stem-cell.csv") |>
+  mutate(change = after - before)
+real_diff <- sheep |> specify(change ~ trmt) |>
+  calculate(stat = "diff in means", order = c("esc", "ctrl"))
+luck <- sheep |> specify(change ~ trmt) |>
+  hypothesize(null = "independence") |>
+  generate(reps = 1000, type = "permute") |>
+  calculate(stat = "diff in means", order = c("esc", "ctrl"))
+```
+
+```{webr}
+#| exercise: ex_pvalue
+mean(luck$stat >= real_diff$______)
+```
+
+::: {.hint exercise="ex_pvalue"}
+Both `luck` and `real_diff` store the number in a column called `stat`.
+:::
+
+```{webr}
+#| exercise: ex_pvalue
+#| solution: true
+mean(luck$stat >= real_diff$stat)
+```
+
+```{webr}
+#| exercise: ex_pvalue
+#| check: true
+gradethis::grade_this_code()
+```
+
+## Challenge 4 — Does more data change the p-value?
+
+We stack the data 3 times into `big` (same averages, same spread, just more rows). Run the
+t-test on `big` and see what the p-value does. Fill in which data frame to use.
+
+```{webr}
+#| setup: true
+#| exercise: ex_n
+library(dplyr)
+sheep <- read.csv("https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/stem-cell.csv") |>
+  mutate(change = after - before)
+big <- bind_rows(sheep, sheep, sheep)
+```
+
+```{webr}
+#| exercise: ex_n
+t.test(change ~ trmt, data = ______)
+```
+
+::: {.hint exercise="ex_n"}
+Use the tripled data frame, `big`. Compare its p-value to the original.
+:::
+
+```{webr}
+#| exercise: ex_n
+#| solution: true
+t.test(change ~ trmt, data = big)
+```
+
+```{webr}
+#| exercise: ex_n
+#| check: true
+gradethis::grade_this_code()
+```
+
+## Challenge 5 — Be a skeptic: use the median
+
+The mean can be pulled around by one odd sheep. Redo the shuffle's statistic using the
+**median** difference instead of the mean. Fill in the statistic name.
+
+```{webr}
+#| setup: true
+#| exercise: ex_median
+library(dplyr)
+library(infer)
+sheep <- read.csv("https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/stem-cell.csv") |>
+  mutate(change = after - before)
+```
+
+```{webr}
+#| exercise: ex_median
+sheep |>
+  specify(change ~ trmt) |>
+  calculate(stat = "______", order = c("esc", "ctrl"))
+```
+
+::: {.hint exercise="ex_median"}
+It looks just like `"diff in means"`, but with `medians`.
+:::
+
+```{webr}
+#| exercise: ex_median
+#| solution: true
+sheep |>
+  specify(change ~ trmt) |>
+  calculate(stat = "diff in medians", order = c("esc", "ctrl"))
+```
+
+```{webr}
+#| exercise: ex_median
+#| check: true
+gradethis::grade_this_code()
+```
+
+---
+
+*Companion to the [main lesson](index.html). Real data: a randomized stem-cell trial in
+sheep (Menasché et al., via the openintro R package).*

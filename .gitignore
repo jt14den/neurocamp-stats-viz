@@ -6,3 +6,7 @@ neurocamp-stats_files/
 
 # macOS
 .DS_Store
+_site/
+
+/.quarto/
+**/*.quarto_ipynb

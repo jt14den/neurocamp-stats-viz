@@ -1,0 +1,16 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - neurocamp-stats.qmd
+    - practice.qmd
+
+website:
+  title: "NeuroCamp: Data & Stats"
+  navbar:
+    background: primary
+    left:
+      - text: "Lesson"
+        href: index.html
+      - text: "Practice"
+        href: practice.html
