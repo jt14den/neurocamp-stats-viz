@@ -11,6 +11,38 @@ the labels and see if luck can fake it," you can teach this.
 
 ---
 
+## Teaching what you don't know (this is an advantage)
+
+Borrowed from Therese Huston's book *Teaching What You Don't Know*. Neither of us is a
+statistician, and that is genuinely useful here, not a liability. Lean into it.
+
+- **You only need to be a week ahead, not an expert.** Mastery is not the bar. A clear
+  mental model one layer deeper than what you teach is plenty. Prepare the *next* question,
+  not the whole field.
+- **You don't have the expert's blind spot.** People who've known stats for 20 years have
+  forgotten what's confusing about a p-value. You haven't. Your fresh confusion is a map of
+  where students will get stuck. When something tripped *you* up this week, slow down there,
+  that's the spot that trips them up too.
+- **Model being a learner, out loud.** "I had to look this up myself" and "here's how I made
+  sense of it" are powerful. You're showing them how a smart adult learns something new,
+  which is half of what NeuroCamp is really about.
+- **"I don't know, let's find out" is a strong move, not a weakness.** When a question lands
+  outside your depth: say so, then either reason through it together, run it as a quick
+  experiment in the code, or write it down and follow up. Confident bluffing is the only
+  real failure mode. (The FAQ below pre-loads the common ones so this happens less.)
+- **Let the students and the data do the work.** Your job is to run a good activity, not to
+  perform expertise. The shuffle demo, the "find the 3 problems" hunt, the live plots, these
+  carry the learning. You narrate and ask questions. This is exactly why active learning is
+  the non-expert teacher's best friend.
+- **Lower the stakes, for you and them.** You're the lead learner in the room, not the
+  oracle. That framing takes the pressure off and makes it safe for students to be confused
+  too.
+
+Net: teach from curiosity, not authority. Being one week ahead with a still-forming mental
+model is a feature of this lesson, not a bug.
+
+---
+
 ## The one idea everything hangs on
 
 > Two groups almost always have different averages. The real question is whether the
