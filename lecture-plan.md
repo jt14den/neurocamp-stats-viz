@@ -43,38 +43,60 @@ Default prereq line to send Elena:
 
 ---
 
-## Elena's brief & learning objectives
+## Learning objectives
 
-Elena's formal request asks for two topics — **Statistical Testing** and **Making Graphs
-& Data Visualization** — but the *learning objectives* she listed are broader and lean
-hands-on. Mapping each to where this session covers it:
+Elena's brief asks for two topics (**Statistical Testing** and **Making Graphs & Data
+Visualization**) and lists seven candidate objectives. Rewritten here as measurable,
+checkable outcomes (4 core + 2 stretch), with what each covers from her list.
 
-| Elena's objective | Where it's covered | Depth |
-|---|---|---|
-| Understand *why* scientists use statistics | §1 hook, §6 the chance problem | Core |
-| Interpret basic results (p-values, averages, variability) | §5 summarize, §7 stat test | Core |
-| Choose the right type of graph for the data | §6 graph it | Core |
-| Navigate a spreadsheet / coding environment with confidence | §2 get in the environment | Core |
-| Enter, organize, and clean data | §3 enter & clean | Core |
-| Run simple calculations/functions to summarize | §5 summarize | Core |
-| Create basic graphs/charts from their data | §6 graph it | Core |
+**By the end, students will be able to:**
 
-### ⚠️ Scope reality (read this first)
+1. **Find** the rows, columns, and variables in a dataset and **run** a cell in a
+   browser-based coding environment. *(Elena: navigate a spreadsheet / coding environment)*
+2. **Spot and fix** three common data problems (blanks, impossible values, mismatched
+   labels) in a small dataset. *(Elena: organize and clean data)*
+3. **Calculate** a group's average and spread and **choose + create** an appropriate graph
+   (dot / box) to compare two groups. *(Elena: run calculations, interpret averages and
+   variability, choose a graph, create a graph)*
+4. **Decide and explain**, in plain language, whether a difference between two groups is
+   likely real or due to chance, and **locate** the p-value in the output. *(Elena:
+   understand why scientists use statistics, interpret p-values)*
 
-Seven objectives, four of them hands-on data skills, in 60-90 min with kids who may have
-**never opened a spreadsheet or coding tool** (these are students from schools without
-university science access). You cannot do all seven *deeply*. Recommendation:
+**Stretch (only if time and devices allow):**
 
-- **Anchor on the hands-on flow** — *get into the tool → enter/clean data → summarize →
-  graph* — because that's 4 of the 7 objectives and builds the confidence Elena names.
-- **Keep the statistical-testing piece as the satisfying capstone**, lighter on mechanics.
-  The "shuffle test" stays as the intuition for p-values, but don't belabor t-test math.
-- If forced to cut: drop the formal t-test demo (§7) before cutting the hands-on flow.
-  The "is it real or luck?" intuition matters more than the `t.test()` output for this age.
+5. **Modify** the code to compare a different pair of groups, or their own camp data.
+6. **Enter** new data values by hand and re-run. *(Elena: enter data. Demoted on purpose:
+   30 novices typing into code cells is slow and error-prone. Better done as one shared
+   live-collection moment, board to a single cell.)*
 
-This is the single decision to confirm with Elena/Jamie: **hands-on data literacy first,
-statistical testing as the payoff** — vs. a more concept-heavy stats talk. Plan below
-assumes the former.
+### Checks for understanding
+
+One quick formative check per objective, ~30 sec each. Without these you're lecturing, not
+teaching to objectives.
+
+| Objective | Check |
+|---|---|
+| 1 (run a cell) | Show of hands / green check once everyone has run cell 1 |
+| 2 (clean data) | "Find the 3 problems" call-out before revealing the fix |
+| 3 (summarize + graph) | Quick poll: "which chart compares two groups?", then everyone produces a box plot that runs |
+| 4 (real or luck) | Exit question: "p = 0.01, real or luck? p = 0.40, real or luck?" thumbs up/down |
+
+### ⚠️ Scope reality
+
+Seven candidate objectives, four of them hands-on data skills, in 60-90 min with students
+who may never have opened a spreadsheet or coding tool. You cannot do all of it *deeply*.
+Recommendation:
+
+- **Anchor on the hands-on flow** (get into the tool, clean data, summarize, graph). It
+  covers most of the objectives and builds the confidence Elena names.
+- **Keep statistical testing as the satisfying capstone**, lighter on mechanics. The
+  shuffle test carries the p-value intuition; don't belabor t-test math.
+- If forced to cut: drop the formal t-test demo (§7) before cutting the hands-on flow. The
+  "is it real or luck?" intuition matters more than the `t.test()` output for this age.
+
+The one decision to confirm with Elena/Jamie: **hands-on data literacy first, statistical
+testing as the payoff**, vs. a more concept-heavy stats talk. The plan below assumes the
+former.
 
 ---
 
