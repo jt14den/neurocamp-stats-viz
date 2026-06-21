@@ -2,6 +2,7 @@
 title: "Is It Real, or Just Luck?"
 subtitle: "Data, Pictures, and the t-test — NeuroCamp"
 author: "DataSquad · UCLA Data Science Center"
+output-file: index.html
 format:
   html:
     toc: true
