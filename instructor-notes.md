@@ -135,6 +135,23 @@ the correct version here.
 
 ---
 
+## The "Going further" challenges (§7) — for advanced students
+
+The doc ends with 5 graduated challenges, each with a **collapsible solution** so students
+try first and self-check. Point fast finishers there and keep teaching the rest of the room;
+you don't have to work these live. What each one teaches, so you can nudge or discuss:
+
+| Challenge | The deeper idea |
+|---|---|
+| 1. How big is the effect? | Significance ≠ size. Effect size vs p-value. |
+| 2. Did groups start the same? | Why randomization / baseline checks matter. |
+| 3. Compute the p-value yourself | Demystifies the p-value: it's just counting the tail. |
+| 4. Does more data change it? | p-values depend on sample size (the big "aha"). |
+| 5. Skeptic's check (median) | Robustness: does the result survive a different choice? |
+
+If a strong student finishes everything, the natural open-ended extension is "bring your own
+camp data and run the whole pipeline on it." That's the real win.
+
 ## Narration script for the shuffle demo (say this)
 
 Use index cards (one sheep's change score + its label per card) on the projector, then the

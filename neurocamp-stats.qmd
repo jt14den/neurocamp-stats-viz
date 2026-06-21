@@ -243,6 +243,103 @@ compare two groups, the recipe is the same:
 Try it: change the code above to plot `before` vs `after` instead, or paste in your own
 data from camp.
 
+# 7. Going further (finished early? want a harder problem?)
+
+These go past the basics. **Try each one before opening the solution.** The earlier cells
+(`sheep`, `real_diff`, `luck`) are still loaded, so you can build on them.
+
+### Challenge 1 — How *big* is the effect, really?
+
+A small p-value says "probably real," not "big." Find the actual size of the difference,
+then divide it by the typical spread to get an **effect size**. Is this a big effect, or a
+tiny one that we only noticed because the data was clean?
+
+::: {.callout-note collapse="true" title="Solution"}
+```{webr-r}
+m <- sheep |> dplyr::group_by(trmt) |> dplyr::summarise(avg = mean(change), s = sd(change))
+diff      <- m$avg[m$trmt == "esc"] - m$avg[m$trmt == "ctrl"]
+pooled_sd <- sqrt(mean(m$s^2))
+c(difference = round(diff, 2), effect_size = round(diff / pooled_sd, 2))
+```
+
+The difference is about **8 percentage points**, and the effect size is close to **2**, which
+means the gap is almost *two whole spreads* wide. That's a **large** effect, not just a
+barely-detectable one. Always report the size, not only the p-value.
+:::
+
+### Challenge 2 — Did the two groups start out the same?
+
+A fair experiment needs the groups to be similar *before* treatment, otherwise one had a
+head start. Check whether the `before` values were comparable across groups. Why does this
+matter for trusting the result?
+
+::: {.callout-note collapse="true" title="Solution"}
+```{webr-r}
+sheep |> dplyr::group_by(trmt) |> dplyr::summarise(avg_before = mean(before))
+t.test(before ~ trmt, data = sheep)$p.value
+```
+
+The baseline averages are close and the p-value is large, so there's **no real difference
+at the start**. Random assignment did its job. That's what lets us credit the *after*
+difference to the stem cells rather than to a head start.
+:::
+
+### Challenge 3 — Compute the p-value yourself
+
+The shaded area in section 5 *is* the p-value. Instead of reading it off the plot, **count
+it**: what fraction of the 1000 shuffles produced a difference at least as big as the real
+one?
+
+::: {.callout-note collapse="true" title="Solution"}
+```{webr-r}
+mean(luck$stat >= real_diff$stat)
+```
+
+That proportion is the p-value, built from scratch. It should land close to the t-test's
+p-value. The p-value was never magic, it's just "how often luck matched or beat us."
+:::
+
+### Challenge 4 — Does more data change the story?
+
+Pretend we ran the same study with **three times as many sheep** by stacking the data on
+itself. The averages and spread stay identical. Predict what happens to the p-value, then
+check.
+
+::: {.callout-note collapse="true" title="Solution"}
+```{webr-r}
+big <- dplyr::bind_rows(sheep, sheep, sheep)   # same pattern, 3x the rows
+t.test(change ~ trmt, data = big)$p.value
+```
+
+The p-value gets **much smaller**, even though the difference and the spread didn't change at
+all. **p-values depend on sample size:** with enough data, even a tiny difference becomes
+"statistically significant." This is exactly why Challenge 1 (effect size) matters.
+:::
+
+### Challenge 5 — Be a skeptic: is it driven by one weird sheep?
+
+The mean is sensitive to outliers. Redo the shuffle test using the **median** difference
+instead of the mean. If the result still holds, it isn't being carried by one unusual sheep.
+
+::: {.callout-note collapse="true" title="Solution"}
+```{webr-r}
+library(infer)
+real_med <- sheep |> specify(change ~ trmt) |>
+  calculate(stat = "diff in medians", order = c("esc", "ctrl"))
+
+luck_med <- sheep |> specify(change ~ trmt) |>
+  hypothesize(null = "independence") |>
+  generate(reps = 1000, type = "permute") |>
+  calculate(stat = "diff in medians", order = c("esc", "ctrl"))
+
+mean(luck_med$stat >= real_med$stat)
+```
+
+If this p-value is also small, the conclusion is **robust**: it survives switching from the
+mean to the median, so it's not an artifact of one extreme value. Checking whether a result
+holds up under a different choice is real scientific thinking.
+:::
+
 ---
 
 *Real data: a randomized stem-cell trial in sheep (Menasché et al., via the openintro R
