@@ -23,13 +23,10 @@ Presenter: Jamie Jamison. Host: Elena Dominguez (NSIDP).
    quarto add coatless/quarto-webr
    ```
 
-3. **Fix the data path in `neurocamp-stats.qmd`.** webr runs in the browser, so it
-   can't read a local file path directly. Pick one:
-   - **Easiest for a live page students load:** upload `data/reaction-time.csv` to a
-     public URL (GitHub raw, a Gist, etc.) and paste it over the PLACEHOLDER links
-     (both the clean and messy CSV) in sections 1 and 2.
-   - **Instructor-drives locally:** render and serve the page on your laptop; then
-     change the read line to `read.csv("data/reaction-time.csv")`.
+3. **Data is already wired.** The doc loads both CSVs from this repo's raw GitHub URLs
+   (`jt14den/neurocamp-stats-viz/main/data/...`), so the webr cells work as-is — no setup.
+   To use the class's own data instead, swap the URL, or run locally with
+   `read.csv("data/reaction-time.csv")`.
 
 ## Render
 

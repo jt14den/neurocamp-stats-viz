@@ -33,14 +33,15 @@ First, let's just *look at the data as a table* — like a spreadsheet:
 
 ```{webr-r}
 # Load the data (times are in milliseconds: 1000 ms = 1 second)
-rt <- read.csv("https://raw.githubusercontent.com/PLACEHOLDER/reaction-time.csv")
+rt <- read.csv("https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/reaction-time.csv")
 # If running locally instead, use:  rt <- read.csv("data/reaction-time.csv")
 rt
 ```
 
 ::: callout-note
-The link above is a placeholder. Before the lecture, either upload the CSVs somewhere
-public and paste the URLs, or run this page locally so `data/...` works. See `README.md`.
+The data loads over the web from this lesson's GitHub repo, so the cells work as-is.
+To use your own data instead, swap in another URL or run the page locally with
+`read.csv("data/...")`. See `README.md`.
 :::
 
 Each **row** is one student. Each **column** is one thing we recorded: who they were,
@@ -52,7 +53,7 @@ Real experiments never give you tidy data. Here's a messier version of the same 
 Load it and see if you can spot the problems:
 
 ```{webr-r}
-messy <- read.csv("https://raw.githubusercontent.com/PLACEHOLDER/reaction-time-messy.csv")
+messy <- read.csv("https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/reaction-time-messy.csv")
 # Local: messy <- read.csv("data/reaction-time-messy.csv")
 messy
 ```
