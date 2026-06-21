@@ -182,12 +182,15 @@ and it reassures the spreadsheet-comfortable kids that they already know most of
 - Key point: the groups *overlap*. The stem-cell group improved more, but points cross over.
 
 ### 7. Is it real, or luck? — statistical testing (15 min) · *interpret p-values*
-- The averages differ. "Does that prove stem cells work?"
-- Card-shuffle intuition: shuffle the group labels, re-deal, recompute the difference. Luck
+- The averages differ. "Does that mean stem cells help, or could chance alone explain it?"
+  (We weigh evidence; we don't *prove*.)
+- Card-shuffle intuition: shuffle the group labels, re-deal, recompute the difference. Chance
   makes differences too. Computer does it 1,000× (**webr + `infer`**), plot the null
   distribution, **shade where the real difference falls.**
-- Name it: that's a **t-test**, and the shaded area is the **p-value**. Small p = hard to
-  explain by luck. Two honest warnings: small ≠ important; p is not "chance I'm wrong."
+- Name it: that's a **t-test** (run one-sided, same direction as the shuffle), and the shaded
+  area is the **p-value**. Small p = hard to explain by chance alone. Two honest warnings:
+  small p ≠ big/important; a p-value is NOT "the chance I'm wrong" or "the chance it was luck."
+  And a simulation p of 0 means "< 1/1000," not zero.
 
 ### 8. Bring it home (5 min)
 - "For YOUR experiment: get data in, clean it, build your measure, summarize, graph, then
@@ -205,7 +208,7 @@ and it reassures the spreadsheet-comfortable kids that they already know most of
 | 90 min | Full arc; let students edit a webr cell to compare their own groups |
 | Their own data | Use their C. elegans / earthworm data in §3-7 instead of the sheep set, biggest payoff |
 | No devices / wifi | Jamie drives the doc on the projector; card-shuffle keeps §7 hands-on |
-| Mixed ability / fast finishers | Point advanced students to **§7 "Going further"** (5 graduated challenges with collapsible answers), or the **graded [Practice page](https://jt14den.github.io/neurocamp-stats-viz/practice.html)** for the same challenges as fill-in-the-blanks with instant feedback. They self-pace and self-check while you help others. |
+| Mixed ability / fast finishers | Point advanced students to **§7 "Going further"** (5 graduated challenges with collapsible answers), or the **graded [Practice page](https://jt14den.github.io/neurocamp-stats-viz/practice.html)** for the same challenges as fill-in-the-blanks with instant feedback. Both are **optional, not part of the core 60-75 min**; use for fast finishers or after-session review. They self-pace and self-check while you help others. |
 
 ---
 
@@ -219,6 +222,7 @@ and it reassures the spreadsheet-comfortable kids that they already know most of
 - [ ] Ruler(s) for the optional warm-up game (§1)
 - [ ] Projector + the rendered HTML open in a browser
 - [ ] Short link to the webr page for students (if they run it themselves)
+- [ ] **Run the presenter preflight** (in `instructor-notes.md`) on the room wifi beforehand
 
 ---
 

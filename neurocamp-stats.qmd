@@ -78,6 +78,8 @@ Where it helps, we'll show the spreadsheet version of a step too.
 Real experiments never hand you tidy data. Here's a messier version of the same study.
 Load it and see if you can spot the problems:
 
+**Run:** load the messy file, then scan the table for anything that looks wrong.
+
 ```{webr-r}
 messy <- read.csv("https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/stem-cell-messy.csv")
 messy
@@ -91,13 +93,14 @@ Three things are wrong. Can you find them?
 3. The labels don't match: `Ctrl`, `ctrl `, `esc`, `ESC`, `Esc`. To the computer those
    are all different groups.
 
-Let's clean it:
+**Watch:** this does three cleaning steps at once. Focus on how the cleaned table differs
+from the messy one.
 
 ```{webr-r}
 library(dplyr)
 
 clean <- messy |>
-  mutate(trmt = tolower(trimws(trmt))) |>   # fix labels: "Control"/"ctrl " -> "ctrl"
+  mutate(trmt = tolower(trimws(trmt))) |>   # fix labels: "Ctrl"/"ctrl " -> "ctrl"
   filter(!is.na(after)) |>                  # drop the blank row
   filter(after <= 100)                      # drop the impossible value
 
@@ -118,9 +121,12 @@ This "clean before you analyze" step happens in *every* tool.
 
 The question is about **recovery**, so what matters is how much each heart *changed*:
 
+**Watch:** this builds a new column. Focus on the new `change` value for each sheep.
+
 ```{webr-r}
 sheep <- sheep |>
-  mutate(change = after - before)   # positive = the heart got stronger
+  mutate(change = after - before,                  # positive = the heart got stronger
+         trmt   = factor(trmt, levels = c("esc", "ctrl")))   # list stem-cell group first
 sheep
 ```
 
@@ -211,11 +217,13 @@ control sheep did better than some treated sheep.
 
 # 5. Is it real, or just luck?
 
-The stem-cell group changed more on average. **But does that prove stem cells work?**
+The stem-cell group changed more on average. **But does that mean stem cells really help,
+or could chance alone explain the gap?**
 
 If we split these 18 sheep into two random groups by coin flip, the two averages still
-wouldn't be *exactly* equal. Random groups differ a little, by luck alone. So we need to
-tell a **real** difference from a **lucky** one.
+wouldn't be *exactly* equal. Random groups differ a little, by chance alone. So we need to
+tell a difference that's **hard to explain by chance** from one that **chance could easily
+produce**. (Note: we never *prove* anything here. We weigh evidence.)
 
 **The trick:** if the treatment did nothing, the labels `esc` and `ctrl` would be
 meaningless, and we could **shuffle** them and get a difference just as big. So let's
@@ -253,10 +261,13 @@ visualize(luck) +
   theme_minimal(base_size = 15)
 ```
 
-**Read the picture:** if the red line is way out past the pile of "luck" differences, then
-luck almost never makes a gap this big, so the difference is probably **real**. If the red
-line sits inside the pile, luck makes gaps like this all the time, and we can't claim
-stem cells helped.
+**Read the picture:** if the red line is way out past the pile of shuffled differences, then
+random label-shuffling almost never makes a gap this big. That's **evidence the treatment
+may matter**. If the red line sits inside the pile, chance produces gaps like this all the
+time, so we **don't have strong evidence** that stem cells helped.
+
+(If the red line is past *every* shuffled result, don't say the chance is zero. It just means
+the gap is smaller than 1000 shuffles can measure, roughly less than 1 in 1000.)
 
 ::: callout-important
 ## Why a coding tool instead of a spreadsheet?
@@ -266,23 +277,30 @@ clicks. Code also **remembers every step**, so anyone can re-run and check your 
 reproducibility, plus simulations like this, is the real reason scientists reach for code.
 :::
 
-That shaded area has a name: the **p-value**. The shortcut scientists use instead of
-shuffling is the **t-test**:
+That shaded area has a name: the **p-value**. It's the fraction of chance-only shuffles that
+match or beat what we actually saw.
+
+Scientists also have a formula-based version of this comparison, the **t-test**. We ask it
+the same one-directional question as our shuffle: did the stem-cell group improve *more* than
+control? (That's what `alternative = "greater"` means; the groups are ordered stem-cell first.)
+
+**Watch:** find the **p-value** in the output below.
 
 ```{webr-r}
-t.test(change ~ trmt, data = sheep)
+t.test(change ~ trmt, data = sheep, alternative = "greater")
 ```
 
-Find the **p-value** in the output.
-
-- **Small p-value (less than 0.05):** hard to explain by luck → probably real.
-- **Big p-value:** luck could easily do this → we can't claim a real difference.
+- **Small p-value (less than 0.05):** the observed gap is hard to explain by chance-only
+  shuffling. That's evidence the treatment may matter.
+- **Large p-value:** chance alone produces gaps like this often, so it's not strong evidence.
 
 ::: callout-important
-## Two honest warnings (real scientists get these wrong!)
-1. A small p-value does **not** mean the effect is "big" or "important." Only "probably
-   not luck." The size of the change (a few percent) is a separate question.
-2. A p-value is **not** "the chance I'm wrong." It's "how often pure luck would fool me."
+## Two honest warnings (even real scientists get these wrong!)
+1. A small p-value is **evidence against a chance-only explanation**. It does **not** prove
+   the effect is real, and it says nothing about whether the effect is **big or important**.
+   The size of the change (a few percent) is a separate question.
+2. A p-value is **not** the chance you're wrong, and **not** the chance the result was due to
+   luck. It's the fraction of chance-only shuffles that match or beat what we saw.
 :::
 
 # 6. Your turn
@@ -301,7 +319,7 @@ compare two groups, the recipe is the same:
 1. **Get the data in** and **clean it.**
 2. **Build the measure** you care about, then **summarize** it (average + spread).
 3. **Plot it** (dots + box). Do the groups overlap a lot, or barely?
-4. **Test it:** is the difference real, or just luck?
+4. **Test it:** is the difference hard to explain by chance alone?
 
 **Try it with your own numbers.** Type your two groups into the cell below (replace the
 example, keep the quotes and commas), then run it:
@@ -331,7 +349,7 @@ ggplot(mydata, aes(x = group, y = value, color = group)) +
 ```
 
 ```{webr-r}
-# is it real, or luck?
+# weigh the evidence: could chance alone explain the gap?
 t.test(value ~ group, data = mydata)
 ```
 
@@ -346,9 +364,9 @@ These go past the basics. **Try each one before opening the solution.** The earl
 
 ### Challenge 1 — How *big* is the effect, really?
 
-A small p-value says "probably real," not "big." Find the actual size of the difference,
-then divide it by the typical spread to get an **effect size**. Is this a big effect, or a
-tiny one that we only noticed because the data was clean?
+A small p-value says the gap is hard to explain by chance, not that it's *big*. Find the
+actual size of the difference, then divide it by the typical spread to get an **effect
+size**. Is this a big effect, or a tiny one?
 
 ::: {.callout-note collapse="true" title="Solution"}
 ```{webr-r}
@@ -375,9 +393,11 @@ sheep |> dplyr::group_by(trmt) |> dplyr::summarise(avg_before = mean(before))
 t.test(before ~ trmt, data = sheep)$p.value
 ```
 
-The baseline averages are close and the p-value is large, so there's **no real difference
-at the start**. Random assignment did its job. That's what lets us credit the *after*
-difference to the stem cells rather than to a head start.
+The baseline averages are close and the p-value is large, so there's **not strong evidence
+of a baseline difference** (which is what we'd hope for after random assignment). A large
+p-value doesn't *prove* the groups were identical, but it means we have no reason to think
+one group started with a head start, which makes the *after* difference easier to credit to
+the stem cells.
 :::
 
 ### Challenge 3 — Compute the p-value yourself
@@ -391,25 +411,31 @@ one?
 mean(luck$stat >= real_diff$stat)
 ```
 
-That proportion is the p-value, built from scratch. It should land close to the t-test's
-p-value. The p-value was never magic, it's just "how often luck matched or beat us."
+That proportion is the simulation p-value, built from scratch: the fraction of shuffles that
+matched or beat the real result. It's in the same ballpark as the t-test's one-sided p-value.
+If it comes out as `0`, that does **not** mean zero, it means none of the 1000 shuffles beat
+the real result, so the p-value is just smaller than 1000 shuffles can measure (roughly
+< 1/1000). The p-value was never magic.
 :::
 
-### Challenge 4 — Does more data change the story?
+### Challenge 4 — Does more data change the story? (a toy demo)
 
-Pretend we ran the same study with **three times as many sheep** by stacking the data on
-itself. The averages and spread stay identical. Predict what happens to the p-value, then
-check.
+Pretend a larger independent study found the same pattern. We *fake* that here by stacking
+the sheep data three times. Predict what happens to the p-value, then check.
 
 ::: {.callout-note collapse="true" title="Solution"}
 ```{webr-r}
-big <- dplyr::bind_rows(sheep, sheep, sheep)   # same pattern, 3x the rows
-t.test(change ~ trmt, data = big)$p.value
+big <- dplyr::bind_rows(sheep, sheep, sheep)   # NOT real new data, just copies
+t.test(change ~ trmt, data = big, alternative = "greater")$p.value
 ```
 
-The p-value gets **much smaller**, even though the difference and the spread didn't change at
-all. **p-values depend on sample size:** with enough data, even a tiny difference becomes
-"statistically significant." This is exactly why Challenge 1 (effect size) matters.
+The p-value gets **much smaller**, even though the difference and spread didn't change at all.
+**p-values depend on sample size:** more data makes the same gap look stronger.
+
+**Important caveat:** this is a toy demonstration, **not** a valid way to get more evidence.
+Copying the same rows is not new data. More data only helps when it means more *independent*
+observations (more actual sheep). Because a small p-value can come from a big effect *or* just
+a big sample, always look at the effect size too (Challenge 1).
 :::
 
 ### Challenge 5 — Be a skeptic: is it driven by one weird sheep?
@@ -431,8 +457,9 @@ luck_med <- sheep |> specify(change ~ trmt) |>
 mean(luck_med$stat >= real_med$stat)
 ```
 
-If this p-value is also small, the conclusion is **robust**: it survives switching from the
-mean to the median, so it's not an artifact of one extreme value. Checking whether a result
+If this p-value is also small (and again, a `0` here means "smaller than 1000 shuffles can
+measure," not literally zero), the result is **robust**: it survives switching from the mean
+to the median, so it isn't being carried by one extreme sheep. Checking whether a result
 holds up under a different choice is real scientific thinking.
 :::
 

@@ -18,9 +18,13 @@ live:
 
 ::: callout-note
 ## How this page works
-Each challenge has **blanks** (`______`) to fill in. Run it, and you get **instant
-feedback** on whether you got it right. Stuck? Use the **Hint** and **Solution** buttons.
-Everything runs in your browser, nothing to install. (First run is slow while R loads.)
+This page is **optional**: it's for fast finishers, after-session review, or a presenter's
+preflight check. It is **not** part of the core 60 to 75 minute lesson, and no one needs to
+finish all five.
+
+Each challenge has **blanks** (`______`) to fill in. Run it, and you get **instant feedback**
+on whether you got it right. Stuck? Use the **Hint** and **Solution** buttons. Everything
+runs in your browser, nothing to install. (First run is slow while R loads.)
 
 These are the harder "Going further" challenges from the lesson, now self-checking. Same
 sheep stem-cell data: 18 sheep, stem-cell treatment (`esc`) vs control (`ctrl`), heart
@@ -141,10 +145,17 @@ mean(luck$stat >= real_diff$stat)
 gradethis::grade_this_code()
 ```
 
-## Challenge 4 — Does more data change the p-value?
+::: callout-warning
+If this comes out as `0`, it does **not** mean the probability is zero. It means none of the
+1000 shuffles beat the real difference, so the p-value is just **smaller than 1000 shuffles
+can estimate**, roughly less than 1 in 1000. Report it as `< 0.001`, not `0`.
+:::
 
-We stack the data 3 times into `big` (same averages, same spread, just more rows). Run the
-t-test on `big` and see what the p-value does. Fill in which data frame to use.
+## Challenge 4 — Does more data change the p-value? (a toy demo)
+
+Pretend a larger independent study found the same pattern. We *fake* it by stacking the same
+sheep 3 times into `big` (same averages, same spread, just copied rows). Run the t-test on
+`big` and see what the p-value does. Fill in which data frame to use.
 
 ```{webr}
 #| setup: true
@@ -176,10 +187,19 @@ t.test(change ~ trmt, data = big)
 gradethis::grade_this_code()
 ```
 
-## Challenge 5 — Be a skeptic: use the median
+::: callout-warning
+This is a **toy demonstration, not** a valid way to get more evidence. Copying the same rows
+is not new data. More data only helps when it means more *independent* observations (more
+actual sheep). The lesson: a small p-value can come from a big effect **or** just a big
+sample, so always check the effect size too.
+:::
 
-The mean can be pulled around by one odd sheep. Redo the shuffle's statistic using the
-**median** difference instead of the mean. Fill in the statistic name.
+## Challenge 5 — Be a skeptic: the median difference
+
+The mean can be pulled around by one odd sheep, so a careful skeptic also looks at the
+**median**. As a first step, calculate the observed *median* difference between the groups.
+(The full robustness check shuffles the labels too, see the optional cell below.) Fill in the
+statistic name.
 
 ```{webr}
 #| setup: true
@@ -213,6 +233,29 @@ sheep |>
 #| exercise: ex_median
 #| check: true
 gradethis::grade_this_code()
+```
+
+::: callout-note
+## Optional: the full robustness check (not graded)
+The exercise above computes the observed median difference. The complete check also shuffles
+the labels 1000 times and counts how often chance produces a median gap this big. Just run
+this one (a `0` here means "smaller than 1000 shuffles can measure," not zero):
+:::
+
+```{webr}
+library(dplyr)
+library(infer)
+sheep <- read.csv("https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/stem-cell.csv") |>
+  mutate(change = after - before)
+
+real_med <- sheep |> specify(change ~ trmt) |>
+  calculate(stat = "diff in medians", order = c("esc", "ctrl"))
+luck_med <- sheep |> specify(change ~ trmt) |>
+  hypothesize(null = "independence") |>
+  generate(reps = 1000, type = "permute") |>
+  calculate(stat = "diff in medians", order = c("esc", "ctrl"))
+
+mean(luck_med$stat >= real_med$stat)
 ```
 
 ---
