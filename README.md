@@ -8,6 +8,7 @@ Presenter: Jamie Jamison. Host: Elena Dominguez (NSIDP).
 | File | What it is |
 |---|---|
 | `lecture-plan.md` | Instructor-facing session plan, timing, talking points, open decisions |
+| `instructor-notes.md` | Plain-language stats primer for the presenter: the p-value/t-test story, a shuffle-demo script, student-question answers, and self-study links |
 | `neurocamp-stats.qmd` | The runnable teaching doc (Quarto + webr) students/instructor work through |
 | `data/reaction-time.csv` | Clean sample dataset (sound vs light). Swap with live class data if collected |
 | `data/reaction-time-messy.csv` | Messy version (blanks, bad decimals, mismatched labels) for the cleaning exercise |
