@@ -1945,6 +1945,46 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Each <strong>row</strong> is one sheep. The <strong>columns</strong> are its treatment group and its heart pumping capacity before and after. That’s all a dataset is: rows of subjects, columns of what we measured.</p>
 <p>Notice the numbers aren’t all the same. That <strong>variation</strong> is what this whole lesson is about: where does it come from, and can the treatment explain some of it?</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The same five steps, in any tool
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Almost every data project runs the same loop, whether you use R, Python, or a spreadsheet:</p>
+<ol type="1">
+<li><strong>Get the data in</strong> (load / import)</li>
+<li><strong>Clean it</strong> (fix labels, drop bad values)</li>
+<li><strong>Restructure it</strong> (make new columns, or reshape / pivot between “wide” and “long”)</li>
+<li><strong>Summarize it</strong> (averages, counts, by group)</li>
+<li><strong>Analyze it</strong> (charts, tests)</li>
+</ol>
+<p>We’re using R today, but the <em>thinking</em> transfers straight to Excel or Google Sheets. Where it helps, we’ll show the spreadsheet version of a step too.</p>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Why use code today</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Where a spreadsheet is great</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<ul>
+<li>It <strong>remembers every step</strong>, so anyone can re-run and check your work (reproducible).</li>
+<li>It makes the <strong>shuffle simulation</strong> in section 5 easy. A spreadsheet really can’t.</li>
+<li>With webr it runs in any browser, with <strong>nothing to install</strong>.</li>
+</ul>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<ul>
+<li>A quick look at small data, or a fast chart.</li>
+<li>You may already know it, and the <strong>concepts are identical</strong> (clean, new columns, pivot, chart).</li>
+<li>Totally fine for simple averages and graphs when you don’t need to reproduce or simulate.</li>
+</ul>
+</div>
+</div>
+</div>
 </section>
 <section id="real-data-is-messy-so-clean-it-first" class="level1">
 <h1>2. Real data is messy, so clean it first</h1>
@@ -1961,12 +2001,38 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Why this matters:</strong> one value of 425 instead of 42.5 would wreck every average and chart that follows. Cleaning is not busywork; it’s part of doing the science right.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Same idea in a spreadsheet
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The exact same operations: <strong>Find &amp; Replace</strong> to fix <code>ESC</code>/<code>Esc</code> into <code>esc</code>, then <strong>filter or sort</strong> to spot the blank and the 425 and delete those rows. Same moves, different buttons. This “clean before you analyze” step happens in <em>every</em> tool.</p>
+</div>
+</div>
 </section>
 <section id="build-the-number-we-actually-care-about" class="level1">
 <h1>3. Build the number we actually care about</h1>
 <p>The question is about <strong>recovery</strong>, so what matters is how much each heart <em>changed</em>:</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Same idea in a spreadsheet
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You’d add a new column with <code>=after - before</code> and fill it down. Building a <strong>calculated column</strong> is one of the most common data moves there is, in any tool. Its cousin is <strong>reshaping</strong> or <strong>pivoting</strong>, switching data between “wide” and “long”. Our <code>before</code>/<code>after</code> columns are “wide”; you’d pivot them “long” if you wanted to chart the change over time.</p>
+</div>
+</div>
 <p>Now summarize each group: the typical change (average) and how much the sheep vary (spread).</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1985,6 +2051,19 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>The <strong>average is our best single guess</strong> for a group: if you had to predict one sheep’s change knowing only its group, you’d guess that group’s average. The <strong>spread is the leftover</strong> the average misses, how much real sheep bounce around that guess.</p>
 <p>The stem-cell group’s average change is positive (hearts improved), the control group’s is negative (hearts got worse). But both groups have spread, so individuals overlap. Hold that thought.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Same idea in a spreadsheet
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This grouped summary is exactly what a <strong>PivotTable</strong> does: drag treatment to the rows, drag change to the values, set it to “Average.” <code>group_by()</code> + <code>summarise()</code> is the PivotTable of the code world.</p>
+</div>
+</div>
 </section>
 <section id="picture-it-choosing-and-making-a-graph" class="level1">
 <h1>4. Picture it: choosing and making a graph</h1>
@@ -2039,6 +2118,19 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Read the picture:</strong> if the red line is way out past the pile of “luck” differences, then luck almost never makes a gap this big, so the difference is probably <strong>real</strong>. If the red line sits inside the pile, luck makes gaps like this all the time, and we can’t claim stem cells helped.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Why a coding tool instead of a spreadsheet?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You <em>could</em> do most of the earlier steps in Excel. But this one, shuffling the labels 1000 times and rebuilding the picture, is painful by hand and nearly impossible to do cleanly with clicks. Code also <strong>remembers every step</strong>, so anyone can re-run and check your work. That reproducibility, plus simulations like this, is the real reason scientists reach for code.</p>
+</div>
+</div>
 <p>That shaded area has a name: the <strong>p-value</strong>. The shortcut scientists use instead of shuffling is the <strong>t-test</strong>:</p>
 <div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2082,7 +2174,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h3 class="anchored" data-anchor-id="challenge-1-how-big-is-the-effect-really">Challenge 1 — How <em>big</em> is the effect, really?</h3>
 <p>A small p-value says “probably real,” not “big.” Find the actual size of the difference, then divide it by the typical spread to get an <strong>effect size</strong>. Is this a big effect, or a tiny one that we only noticed because the data was clean?</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -2091,7 +2183,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div id="qwebr-insertion-location-11"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2104,7 +2196,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h3 class="anchored" data-anchor-id="challenge-2-did-the-two-groups-start-out-the-same">Challenge 2 — Did the two groups start out the same?</h3>
 <p>A fair experiment needs the groups to be similar <em>before</em> treatment, otherwise one had a head start. Check whether the <code>before</code> values were comparable across groups. Why does this matter for trusting the result?</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -2113,7 +2205,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div id="qwebr-insertion-location-12"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2126,7 +2218,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h3 class="anchored" data-anchor-id="challenge-3-compute-the-p-value-yourself">Challenge 3 — Compute the p-value yourself</h3>
 <p>The shaded area in section 5 <em>is</em> the p-value. Instead of reading it off the plot, <strong>count it</strong>: what fraction of the 1000 shuffles produced a difference at least as big as the real one?</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -2135,7 +2227,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div id="qwebr-insertion-location-13"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2148,7 +2240,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h3 class="anchored" data-anchor-id="challenge-4-does-more-data-change-the-story">Challenge 4 — Does more data change the story?</h3>
 <p>Pretend we ran the same study with <strong>three times as many sheep</strong> by stacking the data on itself. The averages and spread stay identical. Predict what happens to the p-value, then check.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -2157,7 +2249,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div id="qwebr-insertion-location-14"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -2170,7 +2262,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h3 class="anchored" data-anchor-id="challenge-5-be-a-skeptic-is-it-driven-by-one-weird-sheep">Challenge 5 — Be a skeptic: is it driven by one weird sheep?</h3>
 <p>The mean is sensitive to outliers. Redo the shuffle test using the <strong>median</strong> difference instead of the mean. If the result still holds, it isn’t being carried by one unusual sheep.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -2179,7 +2271,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div id="qwebr-insertion-location-15"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
