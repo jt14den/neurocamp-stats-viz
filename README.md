@@ -13,8 +13,9 @@ just luck?** It runs entirely in the browser, with no install.
 Built for **NeuroCamp**, UCLA Brain Research Institute's free summer program for ~30 high
 school students (grades 9-12) from schools without university-level science access. This
 is a one-time ~60-90 min session on **data visualization and introductory statistics
-(t-tests)**, themed around a reaction-time experiment so it mirrors the two-group
-comparisons campers already make (e.g. *C. elegans* habituation).
+(t-tests)**, built around a **real published experiment** (a randomized stem-cell trial in
+sheep) so it mirrors the treatment-vs-control comparisons campers already make (e.g.
+*C. elegans* habituation).
 
 - **Date:** Thursday, June 25, 2026
 - **Presenter:** Jamie Jamison (DataSquad / UCLA Data Science Center)
@@ -39,8 +40,8 @@ By the end, a student can:
 | `lecture-plan.md` | Session plan: arc, timing, learning objectives, talking points, open decisions. |
 | `instructor-notes.md` | Plain-language **stats primer for the presenter** — the p-value/t-test story, a shuffle-demo script, student-question answers, and self-study links. Start here if stats are new to you. |
 | `cross-validation-review.md` | Critical design review (backward-design / Carpentries lens) with recommended changes. |
-| `data/reaction-time.csv` | Clean sample dataset (reaction to sound vs light). |
-| `data/reaction-time-messy.csv` | Messy version (blanks, bad decimals, mismatched labels) for the cleaning exercise. |
+| `data/stem-cell.csv` | Real data: sheep stem-cell heart-attack trial (treatment, before, after). From the `openintro` package (Menasché et al.). |
+| `data/stem-cell-messy.csv` | Messy version (a blank, an impossible value, mismatched labels) for the cleaning exercise. |
 | `_extensions/` | The `quarto-webr` extension, committed so the doc renders after a fresh clone. |
 
 ## Using this lesson
@@ -74,11 +75,10 @@ the `.qmd` front matter, or `quarto render neurocamp-stats.qmd --to revealjs`.
 ## Adapting it
 
 - **Use the class's own data.** Swap the CSV URL in the data cells (sections 1-2 of the
-  `.qmd`), or run locally and read `data/your-file.csv`. Any two-group, one-measurement
-  dataset works (the column names `cue` and `reaction_ms` are what the code expects, so
-  either match them or update the code).
+  `.qmd`), or run locally and read `data/your-file.csv`. Any two-group dataset works; update
+  the column names in the code (`trmt`, `before`, `after`) to match your file.
 - **Change the question.** The whole flow generalizes to any "do these two groups differ?"
-  comparison — dominant vs non-dominant hand, treated vs control, etc.
+  comparison, e.g. treated vs control worms, habituated vs naive, etc.
 
 ## Publishing updates
 

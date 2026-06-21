@@ -1,6 +1,6 @@
 ---
 title: "Is It Real, or Just Luck?"
-subtitle: "Data, Pictures, and the t-test — NeuroCamp"
+subtitle: "Data, pictures, and the t-test, for NeuroCamp"
 author: "DataSquad · UCLA Data Science Center"
 output-file: index.html
 format:
@@ -18,52 +18,49 @@ webr:
 ---
 
 > **For students:** Run a code cell by clicking the **Run Code** button under it.
-> You can change the numbers and run it again. You can't break anything — try stuff!
+> You can change the numbers and run it again. You can't break anything, so try stuff!
 >
 > The very first cell takes a little while (your browser is downloading R).
 > After that it's fast.
 
 # 1. Our question
 
-We did a reaction-time experiment. Some students reacted to a **sound**, others
-to a **flash of light**.
+This is data from a **real experiment.** Researchers gave 18 sheep heart attacks, then
+treated half with **embryonic stem cells** (`esc`) and left the other half untreated
+(`ctrl`). They measured each heart's **pumping capacity** (the percent of blood the heart
+pushes out per beat) **before** and **after**.
 
-**Do people react faster to a sound than to a light?**
+**Can stem cells help a damaged heart recover?**
 
-First, let's just *look at the data as a table* — like a spreadsheet:
+Let's look at the data as a table, like a spreadsheet:
 
 ```{webr-r}
-# Load the data (times are in milliseconds: 1000 ms = 1 second)
-rt <- read.csv("https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/reaction-time.csv")
-# If running locally instead, use:  rt <- read.csv("data/reaction-time.csv")
-rt
+# Real data from a sheep stem-cell study (pumping capacity is a percent, 0-100)
+sheep <- read.csv("https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/stem-cell.csv")
+sheep
 ```
 
-::: callout-note
-The data loads over the web from this lesson's GitHub repo, so the cells work as-is.
-To use your own data instead, swap in another URL or run the page locally with
-`read.csv("data/...")`. See `README.md`.
-:::
+Each **row** is one sheep. The **columns** are its treatment group and its heart pumping
+capacity before and after. That's all a dataset is: rows of subjects, columns of what we
+measured.
 
-Each **row** is one student. Each **column** is one thing we recorded: who they were,
-what they reacted to, and how fast (in milliseconds). That's all a dataset is.
+# 2. Real data is messy, so clean it first
 
-# 2. Real data is messy — clean it first
-
-Real experiments never give you tidy data. Here's a messier version of the same study.
+Real experiments never hand you tidy data. Here's a messier version of the same study.
 Load it and see if you can spot the problems:
 
 ```{webr-r}
-messy <- read.csv("https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/reaction-time-messy.csv")
-# Local: messy <- read.csv("data/reaction-time-messy.csv")
+messy <- read.csv("https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/stem-cell-messy.csv")
 messy
 ```
 
 Three things are wrong. Can you find them?
 
-1. Some **blank** reaction times (missing data).
-2. A couple of **impossible values** (2660+ ms — someone fumbled a decimal point).
-3. The labels don't match: `"Sound"` vs `"sound"`, `"Light"` vs `"light"`.
+1. A **blank** value (missing data).
+2. An **impossible value**: an `after` of 425. Pumping capacity is a percent, so it can't
+   go above 100. Someone fumbled a decimal (42.5 became 425).
+3. The labels don't match: `Ctrl`, `ctrl `, `esc`, `ESC`, `Esc`. To the computer those
+   are all different groups.
 
 Let's clean it:
 
@@ -71,37 +68,43 @@ Let's clean it:
 library(dplyr)
 
 clean <- messy |>
-  mutate(cue = tolower(cue)) |>          # make labels match: Sound -> sound
-  filter(!is.na(reaction_ms)) |>         # drop the blank rows
-  filter(reaction_ms < 1000)             # drop the impossible values
+  mutate(trmt = tolower(trimws(trmt))) |>   # fix labels: "Control"/"ctrl " -> "ctrl"
+  filter(!is.na(after)) |>                  # drop the blank row
+  filter(after <= 100)                      # drop the impossible value
 
 clean
 ```
 
-**Why this matters:** one value of 2660 instead of 266 would drag the average way up and
-fool you. Cleaning is not busywork — it's part of doing the science right.
+**Why this matters:** one value of 425 instead of 42.5 would wreck every average and chart
+that follows. Cleaning is not busywork; it's part of doing the science right.
 
-# 3. Summarize it: averages and spread
+# 3. Build the number we actually care about
 
-Now the numbers. Two questions about each group:
-
-- **Average** (mean): what's the typical reaction time?
-- **Spread** (standard deviation): how much do people bounce around that typical value?
+The question is about **recovery**, so what matters is how much each heart *changed*:
 
 ```{webr-r}
-rt |>
-  group_by(cue) |>
-  summarise(average_ms = mean(reaction_ms),
-            spread_ms  = sd(reaction_ms),
+sheep <- sheep |>
+  mutate(change = after - before)   # positive = the heart got stronger
+sheep
+```
+
+Now summarize each group: the typical change (average) and how much the sheep vary (spread).
+
+```{webr-r}
+sheep |>
+  group_by(trmt) |>
+  summarise(avg_change = mean(change),
+            spread     = sd(change),
             n = n())
 ```
 
-The sound group's average looks faster. But notice both groups have a *spread* — people
-vary a lot. Hold onto that; it's the key to the last section.
+The stem-cell group's average change looks positive (hearts improved), the control group's
+looks negative (hearts got worse). But every group has a **spread**, so individual sheep
+bounce around. Hold that thought.
 
 # 4. Picture it: choosing and making a graph
 
-Always look at your data before trusting any single number.
+Always look at your data before trusting a single number.
 
 Which graph? Match the chart to the question:
 
@@ -109,15 +112,16 @@ Which graph? Match the chart to the question:
 - one number **over time** → line chart
 - **two numbers** against each other → scatter plot
 
-Here every dot is one student:
+Here every dot is one sheep's change:
 
 ```{webr-r}
 library(ggplot2)
 
-ggplot(rt, aes(x = cue, y = reaction_ms, color = cue)) +
+ggplot(sheep, aes(x = trmt, y = change, color = trmt)) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
   geom_jitter(width = 0.08, size = 3, alpha = 0.8) +
-  labs(x = "What they reacted to", y = "Reaction time (ms)",
-       title = "Every student, one dot") +
+  labs(x = "Treatment group", y = "Change in pumping capacity (%)",
+       title = "Every sheep, one dot (above 0 = improved)") +
   theme_minimal(base_size = 16) +
   theme(legend.position = "none")
 ```
@@ -125,48 +129,49 @@ ggplot(rt, aes(x = cue, y = reaction_ms, color = cue)) +
 Add a box to show the middle 50% of each group:
 
 ```{webr-r}
-ggplot(rt, aes(x = cue, y = reaction_ms, fill = cue)) +
+ggplot(sheep, aes(x = trmt, y = change, fill = trmt)) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
   geom_boxplot(alpha = 0.4, outlier.shape = NA) +
   geom_jitter(width = 0.08, size = 3, alpha = 0.8) +
-  labs(x = "What they reacted to", y = "Reaction time (ms)",
+  labs(x = "Treatment group", y = "Change in pumping capacity (%)",
        title = "Boxes show the middle 50% of each group") +
   theme_minimal(base_size = 16) +
   theme(legend.position = "none")
 ```
 
-**Talk about it:** the sound group looks faster, but the groups *overlap* — some "light"
-students beat some "sound" students.
+**Talk about it:** the stem-cell group improved more, but the groups *overlap*. Some
+control sheep did better than some treated sheep.
 
 # 5. Is it real, or just luck?
 
-The averages are different. **But does that prove sound is faster?**
+The stem-cell group changed more on average. **But does that prove stem cells work?**
 
-If we split the class by "even vs odd birthday," the two averages still wouldn't be
-*exactly* equal — random groups differ a little by chance. So we need to tell a **real**
-difference from a **lucky** one.
+If we split these 18 sheep into two random groups by coin flip, the two averages still
+wouldn't be *exactly* equal. Random groups differ a little, by luck alone. So we need to
+tell a **real** difference from a **lucky** one.
 
-**The trick:** if the cue didn't matter at all, the labels are meaningless and we could
-**shuffle** them and get a difference just as big. So let's shuffle 1000 times and see
-what differences pure luck produces.
+**The trick:** if the treatment did nothing, the labels `esc` and `ctrl` would be
+meaningless, and we could **shuffle** them and get a difference just as big. So let's
+shuffle 1000 times and see what luck produces.
 
 ```{webr-r}
 library(infer)
 
-# Our real difference (light average minus sound average)
-real_diff <- rt |>
-  specify(reaction_ms ~ cue) |>
-  calculate(stat = "diff in means", order = c("light", "sound"))
+# Our real difference (stem-cell average change minus control average change)
+real_diff <- sheep |>
+  specify(change ~ trmt) |>
+  calculate(stat = "diff in means", order = c("esc", "ctrl"))
 
 real_diff
 ```
 
 ```{webr-r}
 # Shuffle the labels 1000 times = "what does luck look like?"
-luck <- rt |>
-  specify(reaction_ms ~ cue) |>
+luck <- sheep |>
+  specify(change ~ trmt) |>
   hypothesize(null = "independence") |>
   generate(reps = 1000, type = "permute") |>
-  calculate(stat = "diff in means", order = c("light", "sound"))
+  calculate(stat = "diff in means", order = c("esc", "ctrl"))
 
 visualize(luck) +
   shade_p_value(obs_stat = real_diff, direction = "greater") +
@@ -175,16 +180,16 @@ visualize(luck) +
   theme_minimal(base_size = 15)
 ```
 
-**Read the picture:** if the red line is way out past the pile of "luck" differences,
-luck almost never makes a gap this big → the difference is probably **real**. If the red
-line sits inside the pile, luck makes gaps like this all the time → we can't claim sound
-is faster.
+**Read the picture:** if the red line is way out past the pile of "luck" differences, then
+luck almost never makes a gap this big, so the difference is probably **real**. If the red
+line sits inside the pile, luck makes gaps like this all the time, and we can't claim
+stem cells helped.
 
-That shaded area has a name: the **p-value**. And the shortcut scientists use instead of
+That shaded area has a name: the **p-value**. The shortcut scientists use instead of
 shuffling is the **t-test**:
 
 ```{webr-r}
-t.test(reaction_ms ~ cue, data = rt)
+t.test(change ~ trmt, data = sheep)
 ```
 
 Find the **p-value** in the output.
@@ -194,7 +199,8 @@ Find the **p-value** in the output.
 
 ::: callout-important
 ## Two honest warnings (real scientists get these wrong!)
-1. A small p-value does **not** mean "important" or "big." Only "probably not luck."
+1. A small p-value does **not** mean the effect is "big" or "important." Only "probably
+   not luck." The size of the change (a few percent) is a separate question.
 2. A p-value is **not** "the chance I'm wrong." It's "how often pure luck would fool me."
 :::
 
@@ -205,14 +211,15 @@ respond differently from the controls? Did the treated earthworms differ? Whenev
 compare two groups, the recipe is the same:
 
 1. **Get the data in** and **clean it.**
-2. **Summarize** (averages + spread).
-3. **Plot it** (dots + box) — do the groups overlap a lot, or barely?
+2. **Build the measure** you care about, then **summarize** it (average + spread).
+3. **Plot it** (dots + box). Do the groups overlap a lot, or barely?
 4. **Test it:** is the difference real, or just luck?
 
-Try it: change the code above to compare a different pair of groups, or paste in your
-own data from camp.
+Try it: change the code above to plot `before` vs `after` instead, or paste in your own
+data from camp.
 
 ---
 
-*Questions about your data? The DataSquad and the UCLA Data Science Center help students
-with exactly this.*
+*Real data: a randomized stem-cell trial in sheep (Menasché et al., via the openintro R
+package). Questions about your data? The DataSquad and the UCLA Data Science Center help
+students with exactly this.*

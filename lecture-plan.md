@@ -104,55 +104,67 @@ former.
 
 > You can take real data, put it into a tool, make a picture of it, and ask:
 > **is the difference between two groups real, or just luck?**
-> Scientists answer that with a p-value — and now you've done it yourself.
+> Scientists answer that with a p-value, and now you've done it yourself.
 
 ---
 
-## Theme: reaction time
+## Theme: a real sheep stem-cell experiment
 
-NeuroCamp = brains + experiments, so we use a **reaction-time experiment** as the running
-example. It's hands-on, relatable, produces data students can *enter themselves*, and
-mirrors the two-group comparisons they've already made at camp (C. elegans habituation,
-earthworm treatments).
+The running dataset is a **real, published randomized trial**: 18 sheep were given heart
+attacks, then half got embryonic stem cells (`esc`) and half didn't (`ctrl`). Researchers
+measured each heart's pumping capacity (a percent) before and after. Source: Menasché et
+al., via the `openintro` R package.
 
-Example question: **"Do people react faster to a sound than to a flash of light?"**
+Example question: **"Can stem cells help a damaged heart recover?"**
+
+Why this dataset:
+- **Real and published**, not made up. Students analyze actual research.
+- **Ties to NeuroCamp** (they dissect sheep brains and spinal cords; this is sheep too).
+- **Treatment vs control**, the same experimental design they use, so it transfers directly
+  to their *C. elegans* habituation and earthworm work.
+- The **before/after change score** is a genuine data-handling step (a calculation they
+  build), not just a column they're handed.
 
 ---
 
 ## Session arc (built for ~90 min; 60/75 trims below)
 
-### 1. Hook — play the game (10 min) · *why stats*
-- Live reaction-time activity: ruler-drop catch in pairs, or a reaction-time site on the projector.
-- Collect numbers from volunteers into two groups. Write them on the board.
+### 1. Hook — feel the variability (10 min) · *why stats*
+- Optional warm-up (no data needed): ruler-drop catch in pairs, or a reaction-time site on
+  the projector. A couple of volunteers, a couple of tries each.
 - Point: "Everyone's different. Even the *same* person differs each try." **Measurements vary.**
+- Pivot: "Real scientists deal with this constantly. Here's a real experiment where it matters."
 
 ### 2. Get into the environment (10 min) · *navigate a coding environment*
-- Open the webr page. "This is a real coding environment — and you can't break it."
-- Show the data as a **table first** (familiar, spreadsheet-like), then the code cell that made it.
+- Open the webr page. "This is a real coding environment, and you can't break it."
+- Introduce the sheep study (heart attacks, stem cells vs control, pumping capacity %).
+- Show the data as a **table first** (familiar, spreadsheet-like), then the code cell that loaded it.
 - Everyone runs the first cell once (it loads R in the browser). Demystify the editor.
 
-### 3. Enter & clean the data (15 min) · *enter, organize, clean*
-- Students type the class's collected reaction times into a data cell and run it.
-- Then hand them a **deliberately messy** version (`data/reaction-time-messy.csv`): a blank
-  cell, a typo (2300 ms from a misplaced decimal), an inconsistent label ("Sound" vs "sound").
-- Spot-and-fix together: why a 2300 ms value wrecks the average, why labels must match.
-- **Takeaway:** real data is messy; cleaning is part of the science.
+### 3. Clean the data (12 min) · *organize, clean*
+- Load the **deliberately messy** version (`data/stem-cell-messy.csv`). Three problems:
+  a blank value, an **impossible** `after` of 425 (it's a percent, can't exceed 100; a
+  decimal slip from 42.5), and mismatched labels (`Ctrl`, `ctrl `, `esc`, `ESC`, `Esc`).
+- Spot-and-fix together: lowercase/trim the labels, drop the blank, drop the impossible value.
+- **Takeaway:** real data is messy; cleaning is part of the science. (This is Jamie's home turf.)
 
-### 4. *(moved into §6/§7 — see graph + summarize)*
+### 4. Build the measure: the change score (8 min) · *run a calculation*
+- The question is about *recovery*, so compute `change = after - before` (positive = improved).
+- This is the key munging move: you build the number you actually analyze.
 
-### 5. Summarize it (10 min) · *run functions, interpret averages & variability*
-- Run `mean()`, then a grouped summary: average + spread (sd) per group.
-- "The average is the typical value; the spread tells you how much they bounce around."
-- Both groups have an average AND a spread — hold the spread for the stats part.
+### 5. Summarize it (8 min) · *run functions, interpret averages & variability*
+- Grouped summary: average change + spread (sd) per group.
+- "The average is the typical change; the spread tells you how much sheep bounce around."
+- Both groups have an average AND a spread. Hold the spread for the stats part.
 
 ### 6. Graph it (15 min) · *choose the right graph + create graphs*
-- Quick "which chart?" — bar vs line vs scatter vs box, matched to data type (30-sec rule of thumb).
+- Quick "which chart?": bar vs line vs scatter vs box, matched to data type (30-sec rule of thumb).
 - Bad chart vs good chart: one cluttered/3D-pie disaster, then a clean one.
-- Build it: **dot plot** (every point), then **box plot** (middle 50%), means marked.
-- Key point: the groups *overlap*. Averages differ, but points cross over.
+- Build it: **dot plot** (every sheep), then **box plot** (middle 50%), with a line at 0.
+- Key point: the groups *overlap*. The stem-cell group improved more, but points cross over.
 
 ### 7. Is it real, or luck? — statistical testing (15 min) · *interpret p-values*
-- The averages differ. "Does that prove sound beats light?"
+- The averages differ. "Does that prove stem cells work?"
 - Card-shuffle intuition: shuffle the group labels, re-deal, recompute the difference. Luck
   makes differences too. Computer does it 1,000× (**webr + `infer`**), plot the null
   distribution, **shade where the real difference falls.**
@@ -160,7 +172,8 @@ Example question: **"Do people react faster to a sound than to a flash of light?
   explain by luck. Two honest warnings: small ≠ important; p is not "chance I'm wrong."
 
 ### 8. Bring it home (5 min)
-- "For YOUR experiment: get data in → clean it → summarize → graph → ask if it's real or luck."
+- "For YOUR experiment: get data in, clean it, build your measure, summarize, graph, then
+  ask if it's real or luck."
 - Tie to their C. elegans / earthworm comparisons. Where to get help: DataSquad / DSC.
 
 ---
@@ -172,19 +185,19 @@ Example question: **"Do people react faster to a sound than to a flash of light?
 | 60 min | Cut §7 to the card-shuffle intuition only (skip the t-test demo); trim §6 to one chart |
 | 75 min | Run as written but keep §7 tight |
 | 90 min | Full arc; let students edit a webr cell to compare their own groups |
-| Their own data | Use their C. elegans / earthworm data in §3-7 instead of the canned CSV — biggest payoff |
+| Their own data | Use their C. elegans / earthworm data in §3-7 instead of the sheep set, biggest payoff |
 | No devices / wifi | Jamie drives the doc on the projector; card-shuffle keeps §7 hands-on |
 
 ---
 
 ## Materials checklist
 
-- [ ] `data/reaction-time.csv` — clean dataset (swap with live class data if collected)
-- [ ] `data/reaction-time-messy.csv` — messy version for the cleaning exercise (§3)
+- [ ] `data/stem-cell.csv` — real sheep stem-cell data (clean)
+- [ ] `data/stem-cell-messy.csv` — messy version for the cleaning exercise (§3)
 - [ ] `neurocamp-stats.qmd` — the runnable teaching doc (HTML + webr)
 - [ ] Slides version (render qmd to revealjs) — optional
 - [ ] Index cards + markers for the physical shuffle (§7)
-- [ ] Ruler(s) for the ruler-drop game (§1)
+- [ ] Ruler(s) for the optional warm-up game (§1)
 - [ ] Projector + the rendered HTML open in a browser
 - [ ] Short link to the webr page for students (if they run it themselves)
 

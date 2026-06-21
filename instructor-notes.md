@@ -32,17 +32,17 @@ rest follows.
 - Plain words for `sd`: roughly, the typical distance of a data point from its group's average.
 
 ### Sampling variability (why random groups still differ)
-- If you split the room by coin flip into two groups and measure reaction time, the two
+- If you split the room by coin flip into two groups and measure anything, the two
   averages will **not** be exactly equal. Random groups differ a little, by luck alone.
-- So when our real groups (sound vs light) differ, the honest question is: is this more
-  than that everyday random wiggle?
+- So when our real groups (stem cells vs control) differ, the honest question is: is this
+  more than that everyday random wiggle?
 
 ### The shuffle / permutation test — THE key move
 This is the heart of the lesson. Logic, step by step:
 
-1. **Suppose the cue doesn't matter at all** (sound vs light makes no difference). Then the
-   labels "sound" and "light" are meaningless tags — we could swap them around and nothing
-   real would change.
+1. **Suppose the treatment doesn't matter at all** (stem cells vs control makes no
+   difference). Then the labels `esc` and `ctrl` are meaningless tags, and we could swap
+   them around and nothing real would change.
 2. So **shuffle the labels** randomly onto the data and recompute the difference in averages.
    That difference is **pure luck**, because we just destroyed any real connection.
 3. Do that **1000 times.** You get a whole pile of "differences luck can produce." That
@@ -68,7 +68,7 @@ That's it. No formula. The picture *is* the argument.
   shuffle result. You do **not** need to explain the formula, t-statistic, or degrees of
   freedom. If a sharp student asks, "it's a math shortcut for the shuffle we just did" is
   an honest, sufficient answer.
-- Our example asks a one-directional question ("is sound *faster*"), so the code uses
+- Our example asks a one-directional question ("do stem cells *help*"), so the code uses
   `direction = "greater"`. Don't over-explain one- vs two-sided; if asked, "we asked a
   specific direction, so we look at one tail."
 
@@ -78,7 +78,7 @@ That's it. No formula. The picture *is* the argument.
 
 1. **A small p-value does not mean the effect is big or important.** It only means "probably
    not luck." With enough data, a tiny, meaningless difference can have a small p-value.
-   Importance is about the *size* of the difference (e.g. 40 ms), not the p-value.
+   Importance is about the *size* of the difference (e.g. a few percentage points), not the p-value.
 2. **A p-value is not "the chance I'm wrong."** It's "if there were truly no effect, how
    often would luck alone fake a result this extreme?" Subtle but it matters. The everyday
    wrong version ("p = 0.05 means 5% chance the result is wrong") is false; don't say it.
@@ -90,16 +90,18 @@ the correct version here.
 
 ## Narration script for the shuffle demo (say this)
 
-Use index cards (one reaction time + its label per card) on the projector, then the webr cell.
+Use index cards (one sheep's change score + its label per card) on the projector, then the
+webr cell.
 
-1. "Here's our real result: the sound group was about 40 ms faster on average."
-2. "Maybe sound really is faster. Or maybe we just got a lucky split. How do we tell?"
-3. "Let's pretend the cue doesn't matter. If that's true, these labels are meaningless."
+1. "Here's our real result: the stem-cell sheep improved by about 8 points more than the
+   control sheep, on average."
+2. "Maybe stem cells really help. Or maybe we just got a lucky split. How do we tell?"
+3. "Let's pretend the treatment did nothing. If that's true, these labels are meaningless."
    *(shuffle the cards, re-deal into two piles)*
 4. "New difference. That's a difference luck made. Let's do it again." *(repeat 2-3 times,
    jot the numbers)* "Already they're bouncing around zero."
 5. "The computer does this 1000 times instantly." *(run the `infer` cell)*
-6. "This pile is every difference luck can make. Now here's our real 40 ms." *(point at the
+6. "This pile is every difference luck can make. Now here's our real result." *(point at the
    red line)* "Is it out in the tail, or buried in the pile?"
 7. "That shaded bit has a name: the p-value. Small p, way out in the tail, hard to explain
    by luck. That's all a p-value is."
@@ -115,13 +117,13 @@ Use index cards (one reaction time + its label per card) on the projector, then 
 - **"What if p is just above 0.05?"** "Then we don't have strong evidence — but it's not
   'nothing happened.' It means this experiment couldn't tell. Maybe more data would."
 - **"Does a small p mean the difference is big?"** "No — separate questions. p says 'probably
-  real.' The size of the gap (40 ms) says 'how much it matters.' Always look at both."
+  real.' The size of the gap (a few points) says 'how much it matters.' Always look at both."
 - **"What's the difference between the shuffle and the t-test?"** "Same question, two methods.
   The shuffle simulates luck directly; the t-test is a formula that estimates the same
   answer. They usually agree."
 - **"What's standard deviation again?"** "Roughly how far a typical data point sits from its
   group's average — how spread out the numbers are."
-- **"Can we prove sound is faster?"** "We never 'prove' in stats. We say the difference is
+- **"Can we prove stem cells work?"** "We never 'prove' in stats. We say the difference is
   hard to explain by luck, so it's probably real. Science deals in evidence, not proof."
 
 ---

@@ -19,8 +19,9 @@ Both are fixable before June 25. Recommended changes are prioritized at the bott
 
 ## What's working (keep)
 
-- **Relatable, coherent theme.** Reaction time is collectable, intuitive, and maps onto
-  their real two-group experiments (C. elegans habituation). Good backward-design instinct.
+- **Real, coherent theme.** The sheep stem-cell trial is genuine published data, ties to
+  their dissection work, and maps onto their treatment-vs-control experiments (C. elegans
+  habituation). Good backward-design instinct.
 - **Zero-install via webr** removes the #1 failure mode of teaching R to novices.
 - **Scope honesty already in the plan** — the "you can't do all 7 deeply" note is correct.
 - **The p-value-as-shaded-area idea** is genuinely good pedagogy: concept before formula.
