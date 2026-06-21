@@ -137,11 +137,11 @@ Why this dataset:
 
 Worth saying out loud as you go: **these operations are the same in every tool.** Every data
 project runs load → clean → restructure (new columns, reshape/pivot) → summarize → analyze.
-We're in R, but in Excel that's Find & Replace, a calculated column, and a PivotTable. The doc
-has "Same idea in a spreadsheet" asides at the clean, new-column, and summarize steps, plus a
-"why a coding tool, not Excel?" callout at the shuffle (honest answer: reproducibility + the
-simulation). Naming the pipeline helps students carry the skill to whatever tool they use next,
-and it reassures the spreadsheet-comfortable kids that they already know most of this.
+We're in R, but in Excel that's Find & Replace, a calculated column, and a PivotTable. These
+Excel parallels used to sit in the student page; we moved them to **`instructor-notes.md`
+("Cross-tool talking points")** so the page stays clean and *you* deliver them verbally. Naming
+the pipeline helps students carry the skill to whatever tool they use next, and reassures the
+spreadsheet-comfortable kids that they already know most of this.
 
 ---
 

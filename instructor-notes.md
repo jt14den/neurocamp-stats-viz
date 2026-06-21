@@ -188,17 +188,32 @@ feedback, with Hint and Solution buttons. It's **optional**, for fast finishers,
 review, or your own preflight, not something every student must finish. (Built with
 quarto-live; the main lesson stays on quarto-webr.)
 
-## Speaking to the spreadsheet crowd
+## Cross-tool talking points (say these out loud; the student page no longer prints them)
 
-Many students will be more comfortable in Excel/Sheets, and that's an opening, not a problem.
-The doc maps each R step to its spreadsheet equivalent ("Same idea in a spreadsheet" asides):
-cleaning = Find & Replace + filter/delete; `mutate()` = a calculated column; `group_by()` +
-`summarise()` = a PivotTable. This is your data-management home turf, so narrate it from
-experience. The honest "why code, not Excel?" answer (at the shuffle in section 5): you *can*
-do the early steps in a spreadsheet, but code **remembers every step** (reproducible) and
-makes **simulations** like the shuffle easy. Excel is genuinely fine for a quick look at small
-data. Don't oversell code; sell the *transferable pipeline* (load, clean, restructure,
-summarize, analyze) that's the same everywhere.
+We pulled the Excel/spreadsheet asides off the student page to keep it clean, so weave these
+in verbally as you hit each step. Many students are more comfortable in a spreadsheet, and
+that's an opening, not a problem. This is your data-management home turf, so narrate from
+experience.
+
+**The pipeline (say it once, early):** every data project is the same loop in any tool:
+get the data in → clean it → restructure it (new columns, or reshape/pivot between wide and
+long) → summarize it → analyze it.
+
+**Per step, the spreadsheet equivalent:**
+
+| Lesson step (R) | In Excel / Google Sheets |
+|---|---|
+| clean labels + drop bad rows | Find & Replace, then filter/sort and delete |
+| `mutate(change = after - before)` | add a calculated column `=after-before`, fill down |
+| `group_by()` + `summarise()` | a PivotTable (treatment to rows, change to values, set to Average) |
+| `ggplot(...)` | Insert > Chart |
+| `t.test(...)` | the `T.TEST` function, or the Data Analysis t-test |
+
+**"Why code, not Excel?" (drop this at the shuffle in section 5):** you *can* do the early
+steps in a spreadsheet. Code wins because it **remembers every step** (reproducible) and makes
+**simulations** like the 1000-shuffle easy, which a spreadsheet can't really do. Excel is
+genuinely fine for a quick look at small data. Don't oversell code; sell the **transferable
+pipeline**, which is the real takeaway.
 
 ## Narration script for the shuffle demo (say this)
 
