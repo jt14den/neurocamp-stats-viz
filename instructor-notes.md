@@ -152,6 +152,11 @@ you don't have to work these live. What each one teaches, so you can nudge or di
 If a strong student finishes everything, the natural open-ended extension is "bring your own
 camp data and run the whole pipeline on it." That's the real win.
 
+There's also a **graded [Practice page](https://jt14den.github.io/neurocamp-stats-viz/practice.html)**:
+the same five challenges as fill-in-the-blank exercises that auto-check the answer and give
+feedback, with Hint and Solution buttons. Good for advanced students who want to *do* it
+rather than read a solution. (Built with quarto-live; the main lesson stays on quarto-webr.)
+
 ## Speaking to the spreadsheet crowd
 
 Many students will be more comfortable in Excel/Sheets, and that's an opening, not a problem.

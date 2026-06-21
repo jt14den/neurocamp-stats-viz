@@ -5,6 +5,7 @@ chart it, and ask a scientist's question: **is the difference between two groups
 just luck?** It runs entirely in the browser, with no install.
 
 **▶ Live lesson: https://jt14den.github.io/neurocamp-stats-viz/**
+**▶ Practice (graded, self-checking): https://jt14den.github.io/neurocamp-stats-viz/practice.html**
 
 ---
 
@@ -36,13 +37,15 @@ By the end, a student can:
 
 | File | What it is |
 |---|---|
-| `neurocamp-stats.qmd` | The runnable teaching doc (Quarto + webr). Source for the live site. |
+| `neurocamp-stats.qmd` | The main runnable teaching doc (Quarto + quarto-webr). Source for the live lesson. |
+| `practice.qmd` | Companion **graded** challenges (Quarto + quarto-live + gradethis): fill-in-the-blank with instant feedback. The §7 challenges, self-checking. |
+| `_quarto.yml` | Website project config so the lesson and practice pages deploy together. |
 | `lecture-plan.md` | Session plan: arc, timing, learning objectives, talking points, open decisions. |
 | `instructor-notes.md` | Plain-language **stats primer for the presenter** — the p-value/t-test story, a shuffle-demo script, student-question answers, and self-study links. Start here if stats are new to you. |
 | `cross-validation-review.md` | Critical design review (backward-design / Carpentries lens) with recommended changes. |
 | `data/stem-cell.csv` | Real data: sheep stem-cell heart-attack trial (treatment, before, after). From the `openintro` package (Menasché et al.). |
 | `data/stem-cell-messy.csv` | Messy version (a blank, an impossible value, mismatched labels) for the cleaning exercise. |
-| `_extensions/` | The `quarto-webr` extension, committed so the doc renders after a fresh clone. |
+| `_extensions/` | The `quarto-webr` and `quarto-live` extensions, committed so both pages render after a fresh clone. |
 
 ## Using this lesson
 
@@ -53,6 +56,10 @@ first cell is slow (the browser downloads R), then it's fast. **Nothing to insta
 account, no cloud** — R runs inside your browser tab (webr). Bookmark the link to return
 later; note the page **resets if you refresh**, so copy out anything you want to keep. To
 analyze your own data, type it into the template in section 6.
+
+Want harder, self-checking problems? The
+**[Practice page](https://jt14den.github.io/neurocamp-stats-viz/practice.html)** has graded
+fill-in-the-blank challenges with hints and instant feedback.
 
 ### Instructor
 1. Read `lecture-plan.md` (what happens when) and `instructor-notes.md` (the stats, in plain words).
@@ -68,8 +75,9 @@ fresh clone renders without extra setup.
 git clone https://github.com/jt14den/neurocamp-stats-viz.git
 cd neurocamp-stats-viz
 
-quarto preview neurocamp-stats.qmd   # live preview while editing
-quarto render  neurocamp-stats.qmd   # one-time render to index.html
+quarto preview                       # preview the whole site (lesson + practice)
+quarto preview practice.qmd          # just the graded practice page
+quarto render                        # build both pages into _site/
 ```
 
 Want slides instead of a scrolling page? Change `format: html` to `format: revealjs` in
@@ -85,13 +93,15 @@ the `.qmd` front matter, or `quarto render neurocamp-stats.qmd --to revealjs`.
 
 ## Publishing updates
 
-The live site is GitHub Pages, served from the `gh-pages` branch. To redeploy after editing:
+The live site is GitHub Pages, served from the `gh-pages` branch. It's a Quarto **website
+project** (both pages), so redeploy the whole site after editing:
 
 ```bash
-quarto publish gh-pages neurocamp-stats.qmd
+quarto publish gh-pages
 ```
 
-Source lives on `main`; `quarto publish` renders and pushes the built site to `gh-pages`.
+Source lives on `main`; `quarto publish` renders both pages and pushes the built site to
+`gh-pages`.
 
 ## How it works (the no-install trick)
 
@@ -104,6 +114,11 @@ WebAssembly builds on first run and cached.
 Trade-off to know: the first cell is a multi-MB download, so on weak classroom wifi with
 ~30 students at once it can stall. Have students run the first cell early, and keep a
 projector-driven fallback ready (see the card-shuffle activity in `lecture-plan.md`).
+
+The **Practice page** uses a sibling extension,
+**[quarto-live](https://r-wasm.github.io/quarto-live/)**, which adds graded fill-in-the-blank
+exercises (via `gradethis`) on top of the same in-browser webR. The main lesson stays on
+quarto-webr; the two run as separate pages.
 
 ## Credit
 

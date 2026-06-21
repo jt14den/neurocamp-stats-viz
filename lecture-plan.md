@@ -205,7 +205,7 @@ and it reassures the spreadsheet-comfortable kids that they already know most of
 | 90 min | Full arc; let students edit a webr cell to compare their own groups |
 | Their own data | Use their C. elegans / earthworm data in §3-7 instead of the sheep set, biggest payoff |
 | No devices / wifi | Jamie drives the doc on the projector; card-shuffle keeps §7 hands-on |
-| Mixed ability / fast finishers | Point advanced students to **§7 "Going further"**: 5 graduated challenges with collapsible answers (effect size, baseline check, computing the p-value by hand, sample size, robustness). They self-pace and self-check while you help others. |
+| Mixed ability / fast finishers | Point advanced students to **§7 "Going further"** (5 graduated challenges with collapsible answers), or the **graded [Practice page](https://jt14den.github.io/neurocamp-stats-viz/practice.html)** for the same challenges as fill-in-the-blanks with instant feedback. They self-pace and self-check while you help others. |
 
 ---
 
