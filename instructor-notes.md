@@ -152,6 +152,18 @@ you don't have to work these live. What each one teaches, so you can nudge or di
 If a strong student finishes everything, the natural open-ended extension is "bring your own
 camp data and run the whole pipeline on it." That's the real win.
 
+## Speaking to the spreadsheet crowd
+
+Many students will be more comfortable in Excel/Sheets, and that's an opening, not a problem.
+The doc maps each R step to its spreadsheet equivalent ("Same idea in a spreadsheet" asides):
+cleaning = Find & Replace + filter/delete; `mutate()` = a calculated column; `group_by()` +
+`summarise()` = a PivotTable. This is your data-management home turf, so narrate it from
+experience. The honest "why code, not Excel?" answer (at the shuffle in section 5): you *can*
+do the early steps in a spreadsheet, but code **remembers every step** (reproducible) and
+makes **simulations** like the shuffle easy. Excel is genuinely fine for a quick look at small
+data. Don't oversell code; sell the *transferable pipeline* (load, clean, restructure,
+summarize, analyze) that's the same everywhere.
+
 ## Narration script for the shuffle demo (say this)
 
 Use index cards (one sheep's change score + its label per card) on the projector, then the

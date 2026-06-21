@@ -133,6 +133,18 @@ Why this dataset:
 
 ---
 
+## Cross-tool framing (a transferable-skills thread)
+
+Worth saying out loud as you go: **these operations are the same in every tool.** Every data
+project runs load → clean → restructure (new columns, reshape/pivot) → summarize → analyze.
+We're in R, but in Excel that's Find & Replace, a calculated column, and a PivotTable. The doc
+has "Same idea in a spreadsheet" asides at the clean, new-column, and summarize steps, plus a
+"why a coding tool, not Excel?" callout at the shuffle (honest answer: reproducibility + the
+simulation). Naming the pipeline helps students carry the skill to whatever tool they use next,
+and it reassures the spreadsheet-comfortable kids that they already know most of this.
+
+---
+
 ## Session arc (built for ~90 min; 60/75 trims below)
 
 ### 1. Hook — feel the variability (10 min) · *why stats*
