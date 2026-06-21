@@ -42,7 +42,6 @@ By the end, a student can:
 | `_quarto.yml` | Website project config so the lesson and practice pages deploy together. |
 | `lecture-plan.md` | Session plan: arc, timing, learning objectives, talking points, open decisions. |
 | `instructor-notes.md` | Plain-language **stats primer for the presenter** — the p-value/t-test story, a shuffle-demo script, student-question answers, and self-study links. Start here if stats are new to you. |
-| `cross-validation-review.md` | Critical design review (backward-design / Carpentries lens) with recommended changes. |
 | `data/stem-cell.csv` | Real data: sheep stem-cell heart-attack trial (treatment, before, after). From the `openintro` package (Menasché et al.). |
 | `data/stem-cell-messy.csv` | Messy version (a blank, an impossible value, mismatched labels) for the cleaning exercise. |
 | `_extensions/` | The `quarto-webr` and `quarto-live` extensions, committed so both pages render after a fresh clone. |
