@@ -10,3 +10,5 @@ _site/
 
 /.quarto/
 **/*.quarto_ipynb
+HANDOFF.md
+cross-validation-review.md
