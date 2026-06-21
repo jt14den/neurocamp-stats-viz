@@ -287,6 +287,13 @@ Find the **p-value** in the output.
 
 # 6. Your turn
 
+::: callout-note
+## Wait, where is R running?
+There's **nothing to install** and **no cloud account**. This page *is* R: a tool called
+webr runs R right inside your browser tab. Bookmark this link and it still works later. One
+catch: if you **refresh the page it resets**, so copy out any code or results you want to keep.
+:::
+
 Same logic works for **your NeuroCamp experiments**. Did your habituated *C. elegans*
 respond differently from the controls? Did the treated earthworms differ? Whenever you
 compare two groups, the recipe is the same:
@@ -296,8 +303,41 @@ compare two groups, the recipe is the same:
 3. **Plot it** (dots + box). Do the groups overlap a lot, or barely?
 4. **Test it:** is the difference real, or just luck?
 
-Try it: change the code above to plot `before` vs `after` instead, or paste in your own
-data from camp.
+**Try it with your own numbers.** Type your two groups into the cell below (replace the
+example, keep the quotes and commas), then run it:
+
+```{webr-r}
+mydata <- data.frame(
+  group = c("control", "control", "control", "treated", "treated", "treated"),
+  value = c(      12,        15,        11,        19,        22,        18)
+)
+mydata
+```
+
+Now run the same moves on your data, one cell at a time:
+
+```{webr-r}
+# summarize: average and spread per group
+library(dplyr)
+mydata |> group_by(group) |> summarise(avg = mean(value), spread = sd(value), n = n())
+```
+
+```{webr-r}
+# plot it
+library(ggplot2)
+ggplot(mydata, aes(x = group, y = value, color = group)) +
+  geom_jitter(width = 0.08, size = 3) +
+  theme_minimal(base_size = 16) + theme(legend.position = "none")
+```
+
+```{webr-r}
+# is it real, or luck?
+t.test(value ~ group, data = mydata)
+```
+
+Got a lot of data, or want to keep your work? Two easy options: come back to this page and
+re-type it later, or do the **same steps in a spreadsheet** (clean, calculated column,
+PivotTable, chart, `T.TEST`) using the "Same idea in a spreadsheet" notes above.
 
 # 7. Going further (finished early? want a harder problem?)
 

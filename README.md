@@ -49,7 +49,10 @@ By the end, a student can:
 ### Students
 Just open the **[live lesson](https://jt14den.github.io/neurocamp-stats-viz/)** in any
 modern browser. Click **Run Code** under a cell to run it; edit and re-run freely. The
-first cell is slow (the browser downloads R), then it's fast. Nothing to install.
+first cell is slow (the browser downloads R), then it's fast. **Nothing to install, no
+account, no cloud** — R runs inside your browser tab (webr). Bookmark the link to return
+later; note the page **resets if you refresh**, so copy out anything you want to keep. To
+analyze your own data, type it into the template in section 6.
 
 ### Instructor
 1. Read `lecture-plan.md` (what happens when) and `instructor-notes.md` (the stats, in plain words).
