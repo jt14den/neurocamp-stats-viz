@@ -1,0 +1,78 @@
+---
+title: "Prototype: a graded exercise"
+subtitle: "Fill-in-the-blank with automatic feedback, via quarto-live"
+format: live-html
+engine: knitr
+toc: false
+webr:
+  packages:
+    - dplyr
+live:
+  show-hints: true
+  show-solutions: true
+---
+
+{{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
+{{< include ./_extensions/r-wasm/live/_gradethis.qmd >}}
+
+::: callout-note
+## What this is (for Tim and Jamie)
+This is a **proof of concept**, not part of the June 25 lesson. It shows what the
+`quarto-live` extension can do that our current `quarto-webr` setup cannot: **graded
+fill-in-the-blank exercises with instant feedback**, still running entirely in the browser
+(no install, no server).
+
+Try the exercise below: run it with the blanks still in (you'll get a nudge), then fill them
+in and run again to see the pass feedback. The **Hint** and **Solution** buttons come from
+the same system.
+
+If we like the feel, the §7 challenges in the main lesson could become exercises like this.
+The cost is converting the chunks, so this is a v2 decision, after the 25th.
+:::
+
+## Challenge: how big is the effect?
+
+A small p-value tells us a difference is *probably real*, but not *how big* it is. Let's get
+the average change in heart pumping capacity for each group of sheep.
+
+**Fill in the two blanks:** group the data by the treatment column, then take the average of
+the change.
+
+```{webr}
+#| setup: true
+#| exercise: ex_effect
+library(dplyr)
+sheep <- read.csv(
+  "https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/stem-cell.csv"
+) |>
+  mutate(change = after - before)
+```
+
+```{webr}
+#| exercise: ex_effect
+sheep |>
+  group_by(______) |>
+  summarise(avg_change = mean(______))
+```
+
+::: { .hint exercise="ex_effect" }
+The column that says which group each sheep is in is `trmt`. The number you want the average
+of is the one we built earlier, `change`.
+:::
+
+```{webr}
+#| exercise: ex_effect
+#| solution: true
+sheep |>
+  group_by(trmt) |>
+  summarise(avg_change = mean(change))
+```
+
+```{webr}
+#| exercise: ex_effect
+#| check: true
+gradethis::grade_this_code()
+```
+
+When you get it right, you should see the control group with a **negative** average change
+(hearts got worse) and the stem-cell group with a **positive** one (hearts improved).
