@@ -338,7 +338,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"# Real data from a sheep stem-cell study (pumping capacity is a percent, 0-100)\nsheep <- read.csv(\"https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/stem-cell.csv\")\nsheep","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"messy <- read.csv(\"https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/stem-cell-messy.csv\")\nmessy","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nclean <- messy |>\n  mutate(trmt = tolower(trimws(trmt))) |>   # fix labels: \"Control\"/\"ctrl \" -> \"ctrl\"\n  filter(!is.na(after)) |>                  # drop the blank row\n  filter(after <= 100)                      # drop the impossible value\n\nclean","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"sheep <- sheep |>\n  mutate(change = after - before)   # positive = the heart got stronger\nsheep","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"sheep |>\n  group_by(trmt) |>\n  summarise(avg_change = mean(change),\n            spread     = sd(change),\n            n = n())","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(sheep, aes(x = trmt, y = change, color = trmt)) +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  geom_jitter(width = 0.08, size = 3, alpha = 0.8) +\n  labs(x = \"Treatment group\", y = \"Change in pumping capacity (%)\",\n       title = \"Every sheep, one dot (above 0 = improved)\") +\n  theme_minimal(base_size = 16) +\n  theme(legend.position = \"none\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(sheep, aes(x = trmt, y = change, fill = trmt)) +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  geom_boxplot(alpha = 0.4, outlier.shape = NA) +\n  geom_jitter(width = 0.08, size = 3, alpha = 0.8) +\n  labs(x = \"Treatment group\", y = \"Change in pumping capacity (%)\",\n       title = \"Boxes show the middle 50% of each group\") +\n  theme_minimal(base_size = 16) +\n  theme(legend.position = \"none\")","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(infer)\n\n# Our real difference (stem-cell average change minus control average change)\nreal_diff <- sheep |>\n  specify(change ~ trmt) |>\n  calculate(stat = \"diff in means\", order = c(\"esc\", \"ctrl\"))\n\nreal_diff","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Shuffle the labels 1000 times = \"what does luck look like?\"\nluck <- sheep |>\n  specify(change ~ trmt) |>\n  hypothesize(null = \"independence\") |>\n  generate(reps = 1000, type = \"permute\") |>\n  calculate(stat = \"diff in means\", order = c(\"esc\", \"ctrl\"))\n\nvisualize(luck) +\n  shade_p_value(obs_stat = real_diff, direction = \"greater\") +\n  labs(title = \"Differences you get by pure luck\",\n       subtitle = \"The red line is our real result\") +\n  theme_minimal(base_size = 15)","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"t.test(change ~ trmt, data = sheep)","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"# Real data from a sheep stem-cell study (pumping capacity is a percent, 0-100)\nsheep <- read.csv(\"https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/stem-cell.csv\")\nsheep","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"messy <- read.csv(\"https://raw.githubusercontent.com/jt14den/neurocamp-stats-viz/main/data/stem-cell-messy.csv\")\nmessy","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(dplyr)\n\nclean <- messy |>\n  mutate(trmt = tolower(trimws(trmt))) |>   # fix labels: \"Control\"/\"ctrl \" -> \"ctrl\"\n  filter(!is.na(after)) |>                  # drop the blank row\n  filter(after <= 100)                      # drop the impossible value\n\nclean","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"sheep <- sheep |>\n  mutate(change = after - before)   # positive = the heart got stronger\nsheep","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"sheep |>\n  group_by(trmt) |>\n  summarise(avg_change = mean(change),\n            spread     = sd(change),\n            n = n())","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(ggplot2)\n\nggplot(sheep, aes(x = trmt, y = change, color = trmt)) +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  geom_jitter(width = 0.08, size = 3, alpha = 0.8) +\n  labs(x = \"Treatment group\", y = \"Change in pumping capacity (%)\",\n       title = \"Every sheep, one dot (above 0 = improved)\") +\n  theme_minimal(base_size = 16) +\n  theme(legend.position = \"none\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(sheep, aes(x = trmt, y = change, fill = trmt)) +\n  geom_hline(yintercept = 0, linetype = \"dashed\") +\n  geom_boxplot(alpha = 0.4, outlier.shape = NA) +\n  geom_jitter(width = 0.08, size = 3, alpha = 0.8) +\n  labs(x = \"Treatment group\", y = \"Change in pumping capacity (%)\",\n       title = \"Boxes show the middle 50% of each group\") +\n  theme_minimal(base_size = 16) +\n  theme(legend.position = \"none\")","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(infer)\n\n# Our real difference (stem-cell average change minus control average change)\nreal_diff <- sheep |>\n  specify(change ~ trmt) |>\n  calculate(stat = \"diff in means\", order = c(\"esc\", \"ctrl\"))\n\nreal_diff","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Shuffle the labels 1000 times = \"what does luck look like?\"\nluck <- sheep |>\n  specify(change ~ trmt) |>\n  hypothesize(null = \"independence\") |>\n  generate(reps = 1000, type = \"permute\") |>\n  calculate(stat = \"diff in means\", order = c(\"esc\", \"ctrl\"))\n\nvisualize(luck) +\n  shade_p_value(obs_stat = real_diff, direction = \"greater\") +\n  labs(title = \"Differences you get by pure luck\",\n       subtitle = \"The red line is our real result\") +\n  theme_minimal(base_size = 15)","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"t.test(change ~ trmt, data = sheep)","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"m <- sheep |> dplyr::group_by(trmt) |> dplyr::summarise(avg = mean(change), s = sd(change))\ndiff      <- m$avg[m$trmt == \"esc\"] - m$avg[m$trmt == \"ctrl\"]\npooled_sd <- sqrt(mean(m$s^2))\nc(difference = round(diff, 2), effect_size = round(diff / pooled_sd, 2))","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"sheep |> dplyr::group_by(trmt) |> dplyr::summarise(avg_before = mean(before))\nt.test(before ~ trmt, data = sheep)$p.value","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mean(luck$stat >= real_diff$stat)","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"big <- dplyr::bind_rows(sheep, sheep, sheep)   # same pattern, 3x the rows\nt.test(change ~ trmt, data = big)$p.value","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(infer)\nreal_med <- sheep |> specify(change ~ trmt) |>\n  calculate(stat = \"diff in medians\", order = c(\"esc\", \"ctrl\"))\n\nluck_med <- sheep |> specify(change ~ trmt) |>\n  hypothesize(null = \"independence\") |>\n  generate(reps = 1000, type = \"permute\") |>\n  calculate(stat = \"diff in medians\", order = c(\"esc\", \"ctrl\"))\n\nmean(luck_med$stat >= real_med$stat)","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1609,6 +1609,14 @@ globalThis.qwebrExecuteCode = async function (
   <li><a href="#picture-it-choosing-and-making-a-graph" id="toc-picture-it-choosing-and-making-a-graph" class="nav-link" data-scroll-target="#picture-it-choosing-and-making-a-graph">4. Picture it: choosing and making a graph</a></li>
   <li><a href="#is-it-real-or-just-luck" id="toc-is-it-real-or-just-luck" class="nav-link" data-scroll-target="#is-it-real-or-just-luck">5. Is it real, or just luck?</a></li>
   <li><a href="#your-turn" id="toc-your-turn" class="nav-link" data-scroll-target="#your-turn">6. Your turn</a></li>
+  <li><a href="#going-further-finished-early-want-a-harder-problem" id="toc-going-further-finished-early-want-a-harder-problem" class="nav-link" data-scroll-target="#going-further-finished-early-want-a-harder-problem">7. Going further (finished early? want a harder problem?)</a>
+  <ul class="collapse">
+  <li><a href="#challenge-1-how-big-is-the-effect-really" id="toc-challenge-1-how-big-is-the-effect-really" class="nav-link" data-scroll-target="#challenge-1-how-big-is-the-effect-really">Challenge 1 — How <em>big</em> is the effect, really?</a></li>
+  <li><a href="#challenge-2-did-the-two-groups-start-out-the-same" id="toc-challenge-2-did-the-two-groups-start-out-the-same" class="nav-link" data-scroll-target="#challenge-2-did-the-two-groups-start-out-the-same">Challenge 2 — Did the two groups start out the same?</a></li>
+  <li><a href="#challenge-3-compute-the-p-value-yourself" id="toc-challenge-3-compute-the-p-value-yourself" class="nav-link" data-scroll-target="#challenge-3-compute-the-p-value-yourself">Challenge 3 — Compute the p-value yourself</a></li>
+  <li><a href="#challenge-4-does-more-data-change-the-story" id="toc-challenge-4-does-more-data-change-the-story" class="nav-link" data-scroll-target="#challenge-4-does-more-data-change-the-story">Challenge 4 — Does more data change the story?</a></li>
+  <li><a href="#challenge-5-be-a-skeptic-is-it-driven-by-one-weird-sheep" id="toc-challenge-5-be-a-skeptic-is-it-driven-by-one-weird-sheep" class="nav-link" data-scroll-target="#challenge-5-be-a-skeptic-is-it-driven-by-one-weird-sheep">Challenge 5 — Be a skeptic: is it driven by one weird sheep?</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -2066,8 +2074,122 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li><strong>Test it:</strong> is the difference real, or just luck?</li>
 </ol>
 <p>Try it: change the code above to plot <code>before</code> vs <code>after</code> instead, or paste in your own data from camp.</p>
+</section>
+<section id="going-further-finished-early-want-a-harder-problem" class="level1">
+<h1>7. Going further (finished early? want a harder problem?)</h1>
+<p>These go past the basics. <strong>Try each one before opening the solution.</strong> The earlier cells (<code>sheep</code>, <code>real_diff</code>, <code>luck</code>) are still loaded, so you can build on them.</p>
+<section id="challenge-1-how-big-is-the-effect-really" class="level3">
+<h3 class="anchored" data-anchor-id="challenge-1-how-big-is-the-effect-really">Challenge 1 — How <em>big</em> is the effect, really?</h3>
+<p>A small p-value says “probably real,” not “big.” Find the actual size of the difference, then divide it by the typical spread to get an <strong>effect size</strong>. Is this a big effect, or a tiny one that we only noticed because the data was clean?</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="qwebr-insertion-location-11"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The difference is about <strong>8 percentage points</strong>, and the effect size is close to <strong>2</strong>, which means the gap is almost <em>two whole spreads</em> wide. That’s a <strong>large</strong> effect, not just a barely-detectable one. Always report the size, not only the p-value.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="challenge-2-did-the-two-groups-start-out-the-same" class="level3">
+<h3 class="anchored" data-anchor-id="challenge-2-did-the-two-groups-start-out-the-same">Challenge 2 — Did the two groups start out the same?</h3>
+<p>A fair experiment needs the groups to be similar <em>before</em> treatment, otherwise one had a head start. Check whether the <code>before</code> values were comparable across groups. Why does this matter for trusting the result?</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="qwebr-insertion-location-12"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The baseline averages are close and the p-value is large, so there’s <strong>no real difference at the start</strong>. Random assignment did its job. That’s what lets us credit the <em>after</em> difference to the stem cells rather than to a head start.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="challenge-3-compute-the-p-value-yourself" class="level3">
+<h3 class="anchored" data-anchor-id="challenge-3-compute-the-p-value-yourself">Challenge 3 — Compute the p-value yourself</h3>
+<p>The shaded area in section 5 <em>is</em> the p-value. Instead of reading it off the plot, <strong>count it</strong>: what fraction of the 1000 shuffles produced a difference at least as big as the real one?</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="qwebr-insertion-location-13"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>That proportion is the p-value, built from scratch. It should land close to the t-test’s p-value. The p-value was never magic, it’s just “how often luck matched or beat us.”</p>
+</div>
+</div>
+</div>
+</section>
+<section id="challenge-4-does-more-data-change-the-story" class="level3">
+<h3 class="anchored" data-anchor-id="challenge-4-does-more-data-change-the-story">Challenge 4 — Does more data change the story?</h3>
+<p>Pretend we ran the same study with <strong>three times as many sheep</strong> by stacking the data on itself. The averages and spread stay identical. Predict what happens to the p-value, then check.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="qwebr-insertion-location-14"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The p-value gets <strong>much smaller</strong>, even though the difference and the spread didn’t change at all. <strong>p-values depend on sample size:</strong> with enough data, even a tiny difference becomes “statistically significant.” This is exactly why Challenge 1 (effect size) matters.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="challenge-5-be-a-skeptic-is-it-driven-by-one-weird-sheep" class="level3">
+<h3 class="anchored" data-anchor-id="challenge-5-be-a-skeptic-is-it-driven-by-one-weird-sheep">Challenge 5 — Be a skeptic: is it driven by one weird sheep?</h3>
+<p>The mean is sensitive to outliers. Redo the shuffle test using the <strong>median</strong> difference instead of the mean. If the result still holds, it isn’t being carried by one unusual sheep.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="qwebr-insertion-location-15"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>If this p-value is also small, the conclusion is <strong>robust</strong>: it survives switching from the mean to the median, so it’s not an artifact of one extreme value. Checking whether a result holds up under a different choice is real scientific thinking.</p>
+</div>
+</div>
+</div>
 <hr>
 <p><em>Real data: a randomized stem-cell trial in sheep (Menasché et al., via the openintro R package). Questions about your data? The DataSquad and the UCLA Data Science Center help students with exactly this.</em></p>
+</section>
 </section>
 
 </main>
