@@ -1936,6 +1936,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Each <strong>row</strong> is one sheep. The <strong>columns</strong> are its treatment group and its heart pumping capacity before and after. That’s all a dataset is: rows of subjects, columns of what we measured.</p>
+<p>Notice the numbers aren’t all the same. That <strong>variation</strong> is what this whole lesson is about: where does it come from, and can the treatment explain some of it?</p>
 </section>
 <section id="real-data-is-messy-so-clean-it-first" class="level1">
 <h1>2. Real data is messy, so clean it first</h1>
@@ -1959,9 +1960,23 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Now summarize each group: the typical change (average) and how much the sheep vary (spread).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Predict first
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before you run it: which group do you think improved more, and roughly by how much? Write down a number, then check.</p>
+</div>
+</div>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>The stem-cell group’s average change looks positive (hearts improved), the control group’s looks negative (hearts got worse). But every group has a <strong>spread</strong>, so individual sheep bounce around. Hold that thought.</p>
+<p>The <strong>average is our best single guess</strong> for a group: if you had to predict one sheep’s change knowing only its group, you’d guess that group’s average. The <strong>spread is the leftover</strong> the average misses, how much real sheep bounce around that guess.</p>
+<p>The stem-cell group’s average change is positive (hearts improved), the control group’s is negative (hearts got worse). But both groups have spread, so individuals overlap. Hold that thought.</p>
 </section>
 <section id="picture-it-choosing-and-making-a-graph" class="level1">
 <h1>4. Picture it: choosing and making a graph</h1>
@@ -1972,6 +1987,19 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li>one number <strong>over time</strong> → line chart</li>
 <li><strong>two numbers</strong> against each other → scatter plot</li>
 </ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Predict first
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Picture the plot before it appears: where do the stem-cell dots sit compared to the control dots, above or below the line at 0? Do they overlap?</p>
+</div>
+</div>
 <p>Here every dot is one sheep’s change:</p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -1987,6 +2015,19 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p><strong>The trick:</strong> if the treatment did nothing, the labels <code>esc</code> and <code>ctrl</code> would be meaningless, and we could <strong>shuffle</strong> them and get a difference just as big. So let’s shuffle 1000 times and see what luck produces.</p>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Predict first
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Make the call now, before the computer shows you: is this difference <strong>real</strong>, or could <strong>luck</strong> alone explain it? Commit to an answer.</p>
+</div>
+</div>
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><strong>Read the picture:</strong> if the red line is way out past the pile of “luck” differences, then luck almost never makes a gap this big, so the difference is probably <strong>real</strong>. If the red line sits inside the pile, luck makes gaps like this all the time, and we can’t claim stem cells helped.</p>
