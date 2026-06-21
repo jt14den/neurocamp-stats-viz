@@ -44,6 +44,9 @@ Each **row** is one sheep. The **columns** are its treatment group and its heart
 capacity before and after. That's all a dataset is: rows of subjects, columns of what we
 measured.
 
+Notice the numbers aren't all the same. That **variation** is what this whole lesson is
+about: where does it come from, and can the treatment explain some of it?
+
 # 2. Real data is messy, so clean it first
 
 Real experiments never hand you tidy data. Here's a messier version of the same study.
@@ -90,6 +93,12 @@ sheep
 
 Now summarize each group: the typical change (average) and how much the sheep vary (spread).
 
+::: callout-tip
+## Predict first
+Before you run it: which group do you think improved more, and roughly by how much? Write
+down a number, then check.
+:::
+
 ```{webr-r}
 sheep |>
   group_by(trmt) |>
@@ -98,9 +107,13 @@ sheep |>
             n = n())
 ```
 
-The stem-cell group's average change looks positive (hearts improved), the control group's
-looks negative (hearts got worse). But every group has a **spread**, so individual sheep
-bounce around. Hold that thought.
+The **average is our best single guess** for a group: if you had to predict one sheep's
+change knowing only its group, you'd guess that group's average. The **spread is the
+leftover** the average misses, how much real sheep bounce around that guess.
+
+The stem-cell group's average change is positive (hearts improved), the control group's is
+negative (hearts got worse). But both groups have spread, so individuals overlap. Hold that
+thought.
 
 # 4. Picture it: choosing and making a graph
 
@@ -111,6 +124,12 @@ Which graph? Match the chart to the question:
 - comparing **groups of numbers** → dot plot or box plot
 - one number **over time** → line chart
 - **two numbers** against each other → scatter plot
+
+::: callout-tip
+## Predict first
+Picture the plot before it appears: where do the stem-cell dots sit compared to the control
+dots, above or below the line at 0? Do they overlap?
+:::
 
 Here every dot is one sheep's change:
 
@@ -164,6 +183,12 @@ real_diff <- sheep |>
 
 real_diff
 ```
+
+::: callout-tip
+## Predict first
+Make the call now, before the computer shows you: is this difference **real**, or could
+**luck** alone explain it? Commit to an answer.
+:::
 
 ```{webr-r}
 # Shuffle the labels 1000 times = "what does luck look like?"

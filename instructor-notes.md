@@ -41,6 +41,21 @@ statistician, and that is genuinely useful here, not a liability. Lean into it.
 Net: teach from curiosity, not authority. Being one week ahead with a still-forming mental
 model is a feature of this lesson, not a bug.
 
+### Two moves baked into the doc (from CourseKata, UCLA-rooted)
+
+CourseKata is a respected intro stats curriculum (co-created by Jim Stigler at UCLA). Two of
+its ideas are built into this lesson, so just lean on them:
+
+- **It's all about explaining variation.** The framing question is "why aren't all the
+  values the same?" The average is our **best guess** for a group; the spread is the
+  **leftover** that guess misses. The stats question is just: does knowing the group shrink
+  that leftover by more than luck would? You don't need to say it that formally, but that's
+  the thread.
+- **Predict before every reveal.** The doc has "Predict first" callouts before the summary,
+  the plot, and the shuffle. Always make students commit to a guess before you run the cell.
+  This is the single highest-value teaching move in the lesson, and it works *because* you're
+  not lecturing, the prediction is.
+
 ---
 
 ## The one idea everything hangs on

@@ -81,6 +81,12 @@ teaching to objectives.
 | 3 (summarize + graph) | Quick poll: "which chart compares two groups?", then everyone produces a box plot that runs |
 | 4 (real or luck) | Exit question: "p = 0.01, real or luck? p = 0.40, real or luck?" thumbs up/down |
 
+**Predict before every reveal.** Borrowed from CourseKata: before running each cell, have
+students commit to a guess (which group is higher, what the plot looks like, real or luck).
+The doc has these as "Predict first" callouts. A prediction turns passive watching into
+active learning and surfaces misconceptions for free, and it's the non-expert teacher's best
+friend (the prediction does the teaching, not you).
+
 ### ⚠️ Scope reality
 
 Seven candidate objectives, four of them hands-on data skills, in 60-90 min with students
