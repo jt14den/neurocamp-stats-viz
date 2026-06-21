@@ -1,0 +1,8 @@
+# Quarto / R render artifacts
+.quarto/
+/*.html
+/*_files/
+neurocamp-stats_files/
+
+# macOS
+.DS_Store
