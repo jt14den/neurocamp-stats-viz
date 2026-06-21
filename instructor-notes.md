@@ -188,10 +188,11 @@ feedback, with Hint and Solution buttons. It's **optional**, for fast finishers,
 review, or your own preflight, not something every student must finish. (Built with
 quarto-live; the main lesson stays on quarto-webr.)
 
-## Cross-tool talking points (say these out loud; the student page no longer prints them)
+## Cross-tool talking points (your script for the spreadsheet parallels)
 
-We pulled the Excel/spreadsheet asides off the student page to keep it clean, so weave these
-in verbally as you hit each step. Many students are more comfortable in a spreadsheet, and
+The student page has a consolidated "same steps in a spreadsheet" table near the end. Use
+these notes to deliver the parallels **live as you hit each step**, so students connect them
+in the moment, not just at the end. Many students are more comfortable in a spreadsheet, and
 that's an opening, not a problem. This is your data-management home turf, so narrate from
 experience.
 

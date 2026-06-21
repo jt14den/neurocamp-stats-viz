@@ -302,8 +302,26 @@ t.test(value ~ group, data = mydata)
 ```
 
 Got a lot of data, or want to keep your work? Two easy options: come back to this page and
-re-type it later, or do the **same steps in a spreadsheet** (clean, add a calculated column,
-PivotTable, chart, `T.TEST`).
+re-type it later, or do the **same steps in a spreadsheet** (see the next section).
+
+# The same steps in a spreadsheet
+
+You don't have to use R. Everything we did has an Excel or Google Sheets version, and the
+*ideas* are identical, so the skills you built today carry over:
+
+| What we did in R | In a spreadsheet |
+|---|---|
+| Clean labels, drop bad rows | **Find & Replace**, then filter/sort and delete |
+| Build `change = after - before` | A **new column** with `=after-before`, filled down |
+| Group averages (`group_by` + `summarise`) | A **PivotTable** |
+| The dot / box plot | **Insert > Chart** |
+| The t-test | The **`T.TEST`** function |
+
+The one thing a spreadsheet can't really do is the **shuffle simulation** from section 5.
+That, plus the fact that code **remembers every step** so anyone can re-run and check your
+work, is why scientists often reach for code. For a quick look at small data, a spreadsheet is
+perfectly fine. The real takeaway is the **pipeline itself**: get the data in, clean it,
+restructure it, summarize it, analyze it. That's the same everywhere.
 
 # 7. Going further (finished early? want a harder problem?)
 
